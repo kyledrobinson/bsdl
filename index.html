@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloor Street Dart League</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Be+Vietnam+Pro:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900">
+    
+
+
+</head>
+<script>
+    (function(){
+      // Prevent browser from restoring previous scroll position
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+
+      function scrollToHash() {
+        if (!location.hash) return;
+        const el = document.querySelector(location.hash);
+        if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+
+      function ensureTopIfNoHash() {
+        if (!location.hash) {
+          // Make sure we start at the very top so header/nav is visible
+          window.scrollTo({top: 0, left: 0, behavior: 'auto'});
+        }
+      }
+
+      // On DOM ready, force top if no hash, otherwise go to hash
+      document.addEventListener('DOMContentLoaded', function(){
+        ensureTopIfNoHash();
+        scrollToHash();
+      });
+
+      // After full load (tables rendered), retry desired position
+      window.addEventListener('load', () => setTimeout(function(){
+        if (location.hash) scrollToHash(); else ensureTopIfNoHash();
+      }, 300));
+
+      // Handle manual hash changes from nav
+      window.addEventListener('hashchange', scrollToHash);
+    })();
+  </script>
+<body data-theme="light">
+    <header class="site-header">
+        <div class="logo-section">
+            <div class="logo-icon">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+                </svg>
+            </div>
+            <h1 class="site-title">Bloor Street Dart League</h1>
+        </div>
+        <div class="header-right">
+            <nav class="nav-menu">
+                <a class="nav-link" href="#standings">Standings</a>
+                <a class="nav-link" href="#player">Player Stats</a>
+                <a class="nav-link" href="#upcoming-matches">Schedule</a>
+                <a class="nav-link" href="constitution.html">Constitution</a>
+                <a class="nav-link" href="contactUs.html">Contact</a>
+            </nav>
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                <div class="theme-icon">
+                    <!-- Sun Icon (shown in dark mode) -->
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"></path>
+                    </svg>
+                    <!-- Moon Icon (shown in light mode) -->
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23Zm-44.73,43.07A88,88,0,0,1,65.57,65.57,88.35,88.35,0,0,1,79.63,53.38a104.11,104.11,0,0,0,96.77,96.77A88.35,88.35,0,0,1,188.81,185.3Z"></path>
+                    </svg>
+                </div>
+            </button>
+            <div class="profile-avatar" style="background-image: url('');"></div>
+        </div>
+    </header>
+    
+    <main class="main-content">
+        <div class="content-wrapper">  
+            <!-- Hero Section -->
+            <div class="hero-container">
+                <div class="hero-banner" style="background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url('img/2025champstitle.png');">
+                    <div class="hero-content">
+                        <h2 class="hero-title">Welcome to the Bloor Street </br>Dart League</h2>
+                        <p class="hero-subtitle">
+                            Join us for the 2025/2026 Bloor Street Dart League, beginning September 9, 2025. 
+                            </br>A new season of darts, competition, and community awaits!
+                          </p>
+                    </div>
+                </div>
+                    <!--
+                <button class="cta-button">
+                    <span>View Schedule</span>
+                </button>
+                -->
+            </div>
+            
+            <!-- Announcements Section -->
+            <h2 class="section-title">Recent Announcements</h2>
+            <div class="announcement-card">
+                <div class="announcement-content">
+                    <div class="announcement-text">
+                        <p class="announcement-label">League Update</p>
+                        <p class="announcement-title">New Season Registration Has Closed: New Players are Welcome!</p>
+                        <p class="announcement-description">Registration for the upcoming season is now open! Sign up before August 15th to secure your spot. Don't miss out on the chance to compete and connect with fellow dart enthusiasts.</p>
+                    </div>
+                    <div class="announcement-image" style="background-image: url('img/3darts.jpg');"></div>
+                </div>
+            </div>
+            
+            <section id="standings" class="table-container">
+                <div class="section-title-row">
+                  <h2 class="section-title">Team Standings</h2>
+                  <time id="standingsDate" class="standings-date-badge" datetime="2025-03-26">September 9, 2025</time>
+                </div>
+              
+                <div id="errorMessage" role="alert" aria-live="polite"></div>
+              
+                <div class="search-container" style="padding: 0 16px 8px;">
+                  <input type="text" id="searchInput" placeholder="Search teams..." aria-label="Search teams">
+                </div>
+              
+                <div class="matches-table-wrapper">
+                    <table id="teamStandings" class="matches-table">
+                        <thead>
+                          <tr>
+                            <th data-column="Pos">Pos</th>
+                            <th data-column="Team">Team</th>
+                            <th data-column="Nights Played">Nights Played</th>
+                            <th data-column="Nights Won">Nights Won</th>
+                            <th data-column="Nights Lost">Nights Lost</th>
+                            <th data-column="Games Won">Games Won</th>
+                            <th data-column="Games Lost">Games Lost</th>
+                            <th data-column="Win Percentage">Win Percentage</th>
+                            
+                            <th data-column="Skunk W" aria-label="Skunk Wins" title="Skunk Wins">
+                                <span class="th-emoji" aria-hidden="true">🦨</span>
+                                <span class="th-text">W</span>
+                              </th>
+                              <th data-column="Skunk L" aria-label="Skunk Losses" title="Skunk Losses">
+                                <span class="th-emoji" aria-hidden="true">🦨</span>
+                                <span class="th-text">L</span>
+                              </th>
+
+                          </tr>
+                        </thead>
+                        <tbody id="teamStandingsBody"></tbody>
+                      </table>
+                </div>
+              </section>
+              
+            
+              
+            <!-- Player Stats -->
+<section id="player" class="table-container">
+    <div class="section-title-row">
+      <h2 class="section-title">Player Stats</h2>
+      <time class="standings-date-badge" aria-hidden="true">Weekly import</time>
+    </div>
+  
+    <div class="search-container" style="padding: 0 16px 8px;">
+      <input type="text" id="playerSearchInput" placeholder="Search players or teams..." aria-label="Search players">
+    </div>
+  
+    <div class="matches-table-wrapper">
+      <table id="playerStandings" class="matches-table" aria-describedby="playerSearchInput">
+        <thead>
+          <tr>
+            <th data-column="Pos">Pos</th>
+            <th data-column="Team">Team</th>
+            <th data-column="Player">Player</th>
+            <th data-column="WP">WP</th>
+            <th data-column="GP">GP</th>
+            <th data-column="GW">GW</th>
+            <th data-column="DBL IN">DBL IN</th>
+            <th data-column="GF">GF</th>
+            <th data-column="Win %">Win %</th>
+            <th data-column="Finish %">Finish %</th>
+            <th data-column="Skunk Win">Skunk Win</th>
+            <th data-column="B. Open">B. Open</th>
+            <th data-column="B. Fin.">B. Fin.</th>
+            <th data-column="High Start">High Start</th>
+            <th data-column="High Finish">High Finish</th>
+            <th data-column="High Score">High Score</th>
+            <th data-column="4 Fin.">4 Fin.</th>
+            <th data-column="5 Fin.">5 Fin.</th>
+            <th data-column="Busts">Busts</th>
+            <th data-column="Fewest Darts">Fewest Darts</th>
+            <th data-column="LFT FIN">LFT FIN</th>
+          </tr>
+        </thead>
+        <tbody id="playerStandingsBody"></tbody>
+      </table>
+    </div>
+  
+    <div id="pagination" style="padding: 10px 16px;"></div>
+  </section>
+  
+
+            <!-- Upcoming Matches Table -->
+            <section id="upcoming-matches" class="table-container">
+                <div class="section-title-row">
+                  <h2 class="section-title">Upcoming Matches</h2>
+                  <time id="upcomingDateBadge" class="standings-date-badge" datetime=""></time>
+                </div>
+              
+                <!-- Week tabs -->
+                <div class="week-tabs" role="tablist" aria-label="Season Weeks" id="upcomingWeekTabs"></div>
+              
+                <div class="matches-table-wrapper">
+                    <table class="matches-table upcoming-table" aria-describedby="upcomingDateBadge">
+                        <thead>
+                          <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Home</th>
+                            <th>Away</th>
+                            <th>Venue</th>
+                          </tr>
+                        </thead>
+                        <tbody id="upcomingBody"></tbody>
+                      </table>
+                </div>
+              </section>
+              
+            
+            <!-- Quick Links Section -->
+            <h2 class="section-title">Quick Links</h2>
+            <div class="quick-links-grid">
+                <a href="#upcoming-matches" class="link-card">
+                    <div class="link-card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-96-88v64a8,8,0,0,1-16,0V132.94l-4.42,2.22a8,8,0,0,1-7.16-14.32l16-8A8,8,0,0,1,112,120Zm59.16,30.45L152,176h16a8,8,0,0,1,0,16H136a8,8,0,0,1-6.4-12.8l28.78-38.37A8,8,0,1,0,145.07,132a8,8,0,1,1-13.85-8A24,24,0,0,1,176,136,23.76,23.76,0,0,1,171.16,150.45Z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="link-card-title">Schedule</h3>
+                </a>
+                
+                <a href="#standings" class="link-card">
+                    <div class="link-card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M232,64H208V56a16,16,0,0,0-16-16H64A16,16,0,0,0,48,56v8H24A16,16,0,0,0,8,80V96a40,40,0,0,0,40,40h3.65A80.13,80.13,0,0,0,120,191.61V216H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16H136V191.58c31.94-3.23,58.44-25.64,68.08-55.58H208a40,40,0,0,0,40-40V80A16,16,0,0,0,232,64ZM48,120A24,24,0,0,1,24,96V80H48v32q0,4,.39,8Zm144-8.9c0,35.52-28.49,64.64-63.51,64.9H128a64,64,0,0,1-64-64V56H192ZM232,96a24,24,0,0,1-24,24h-.5a81.81,81.81,0,0,0,.5-8.9V80h24Z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="link-card-title">Standings</h3>
+                </a>
+                
+                <a href="#player" class="link-card">
+                    <div class="link-card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M224,200h-8V40a8,8,0,0,0-8-8H152a8,8,0,0,0-8,8V80H96a8,8,0,0,0-8,8v40H48a8,8,0,0,0-8,8v64H32a8,8,0,0,0,0,16H224a8,8,0,0,0,0-16ZM160,48h40V200H160ZM104,96h40V200H104ZM56,144H88v56H56Z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="link-card-title">Stats</h3>
+                </a>
+                
+                <a href="contactUs.html" class="link-card">
+                    <div class="link-card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="link-card-title">Contact</h3>
+                </a>
+            </div>
+              <!-- ===== CRM / Combo Charts ===== -->
+<section id="charts" class="chart-container" style="padding:16px 16px 0">
+  <h2 class="section-title" id="charts-title">League Dashboards</h2>
+  <div id="winPercentageChart" class="chart" style="min-height:360px"></div>
+  <div id="nightsWonLostChart" class="chart" style="min-height:360px"></div>
+  <div id="gamesWonLostChart" class="chart" style="min-height:420px"></div>
+  <div id="barChart" class="chart" style="min-height:440px"></div>
+  <div id="bubbleChart" class="chart" style="min-height:480px"></div>
+</section>
+
+
+          
+                <script>
+                    // Theme Toggle Function
+                    function toggleTheme() {
+                        const body = document.body;
+                        const currentTheme = body.getAttribute('data-theme');
+                        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                        
+                        body.setAttribute('data-theme', newTheme);
+                        
+                        // Save preference to localStorage
+                        localStorage.setItem('theme', newTheme);
+                    }
+                    
+                    // Check for saved theme preference or default to light
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const savedTheme = localStorage.getItem('theme') || 'light';
+                        document.body.setAttribute('data-theme', savedTheme);
+                    });
+            
+                    
+                </script>
+                <script src="matchDetails.js?v=20250913"></script>
+                
+                <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+
+
+
+<script>
+/* =========================
+   Theme + sizing helpers
+   ========================= */
+function tokens(){
+  const css = getComputedStyle(document.documentElement);
+  return {
+    text:   css.getPropertyValue('--text-primary').trim()   || '#0e1a13',
+    subtle: css.getPropertyValue('--text-secondary').trim() || '#6a7a73',
+    accent: css.getPropertyValue('--accent').trim()         || '#38e07b',
+    grid:   css.getPropertyValue('--bg-table-header').trim()|| '#e9efe9'
+  };
+}
+function isMobile(){ return matchMedia('(max-width:640px)').matches; }
+function isDark(){ return (document.body.getAttribute('data-theme')||'').toLowerCase()==='dark'; }
+function elW(id){
+  const el = document.getElementById(id);
+  const w  = el?.getBoundingClientRect().width || el?.parentElement?.getBoundingClientRect().width || 640;
+  return Math.max(320, Math.floor(w));
+}
+const CFG = { displayModeBar:false, responsive:true, staticPlot:isMobile() };
+
+/* Palette: uses CSS --chart-1..6 if present; falls back smartly */
+function chartPalette(){
+  const css = getComputedStyle(document.documentElement);
+  const picks = [];
+  for (let i=1;i<=6;i++){
+    const v = css.getPropertyValue(`--chart-${i}`).trim();
+    if (v) picks.push(v);
+  }
+  if (picks.length) return picks;
+  return isDark()
+    ? ['#9af5b6', '#80cfff', '#d6b3ff', '#ffe07a', '#7df0d6', '#ff9ac2']
+    : ['#38e07b', '#49a8e4', '#9d7dff', '#8bd4a0', '#ffc857', '#ff7aa2'];
+}
+function barColors(n){
+  const seed = chartPalette();
+  return Array.from({length:n}, (_,i)=> seed[i % seed.length]);
+}
+
+/* Base layout & animation */
+function baseLayout(id, title){
+  const C = tokens();
+  const tf = { color: C.text }; // one place to control text color
+
+  return {
+    title,
+    width: elW(id),
+    paper_bgcolor:'rgba(0,0,0,0)',
+    plot_bgcolor:'rgba(0,0,0,0)',
+    font:{ color:C.text, family:"'Be Vietnam Pro', system-ui, -apple-system, Segoe UI, Roboto, Arial" },
+
+    // 👇 important: tickfont/titlefont/legend font all set to theme text
+    xaxis:{ tickangle:isMobile()?-75:-35, gridcolor:C.grid, zerolinecolor:C.grid,
+            tickfont: tf, titlefont: tf },
+    yaxis:{ gridcolor:C.grid, zerolinecolor:C.grid,
+            tickfont: tf, titlefont: tf },
+    legend:{ orientation:isMobile()?'h':'v', x:0, y:1.1, font: tf },
+
+    hovermode: isMobile() ? false : 'closest',
+    dragmode:  isMobile() ? false : 'zoom',
+    transition:{ duration:650, easing:'cubic-in-out' }
+  };
+}
+
+async function animateFromZero(id, traces, layout){
+  if (isMobile()) return Plotly.newPlot(id, traces, layout, CFG);
+  const zero = traces.map(t=>{
+    const z = Array.isArray(t.y) ? t.y.map(()=>0) : 0;
+    return {...t, y:z};
+  });
+  await Plotly.newPlot(id, zero, layout, CFG);
+  return Plotly.animate(id, [{data:traces}], {transition:{duration:700, easing:'cubic-in-out'}, frame:{duration:700, redraw:false}});
+}
+function pct01(v){ const n = Number(String(v).replace('%','').trim()); return isFinite(n)?(n>1?n/100:n):0; }
+
+/* =========================
+   Charts (animated + theme-aware)
+   ========================= */
+   function plotWinPct(teams){
+  const rows=[...teams].sort((a,b)=>(b['Win Percentage']||0)-(a['Win Percentage']||0));
+  const x=rows.map(d=>d.Team), y=rows.map(d=>pct01(d['Win Percentage']||0));
+  const id='winPercentageChart';
+  const outline = isDark() ? 'rgba(255,255,255,0.18)' : 'rgba(0,0,0,0.08)';
+  const traces=[{
+    x, y, type:'bar',
+    marker:{ color: barColors(x.length), line:{color:outline, width:1} },
+    text: y.map(v=>(v*100).toFixed(1)+'%'),
+    textposition:'auto',
+    textfont:{ color: isDark()? '#f2fff6' : tokens().text },   // 👈 add this
+    hovertemplate:'<b>%{x}</b><br>Win %: %{y:.0%}<extra></extra>'
+  }];
+  return animateFromZero(id,traces,{...baseLayout(id,'Team Win Percentage'),
+    yaxis:{...baseLayout(id).yaxis, range:[0,1], tickformat:'.0%'}});
+}
+
+
+function plotNightsWonLost(teams, mode = 'stack'){
+  const x    = teams.map(d => d.Team);
+  const won  = teams.map(d => +d['Nights Won']  || 0);
+  const lost = teams.map(d => +d['Nights Lost'] || 0);
+
+  const id = 'nightsWonLostChart';
+  const outline = isDark() ? 'rgba(255,255,255,0.18)' : 'rgba(0,0,0,0.08)';
+  const pal = chartPalette();
+  const wonCol  = pal[0];
+  const lostCol = pal[3] || '#ffe07a';
+
+  // Y-axis range: if stacked, base on (won+lost); if grouped, take the max of either
+  const maxY = (mode === 'stack')
+    ? won.map((w,i)=> w + (lost[i] || 0)).reduce((a,b)=> Math.max(a,b), 0)
+    : Math.max(1, ...won, ...lost);
+  const niceMax = Math.max(1, Math.ceil(maxY * 1.2)); // headroom
+  const dtick   = 1;                                   // nights are integers
+
+  const traces = [
+    { x, y: won,  name:'Nights Won',  type:'bar', marker:{ color:wonCol,  line:{color:outline, width:1} } },
+    { x, y: lost, name:'Nights Lost', type:'bar', marker:{ color:lostCol, line:{color:outline, width:1} } }
+  ];
+
+  const layout = {
+    ...baseLayout(id, 'Nights Won vs Lost'),
+    barmode: mode,  // 'stack' (default) or 'group'
+    yaxis: {
+      ...baseLayout(id).yaxis,
+      rangemode: 'tozero',
+      range: [0, niceMax],
+      dtick
+    }
+  };
+
+  return animateFromZero(id, traces, layout);
+}
+
+
+/* JITTERED scatter so overlapping teams become visible (all 12 show) */
+function plotGamesWonLost(teams){
+  const id = 'gamesWonLostChart';
+  const C  = tokens();
+
+  const entries = (teams||[]).map(t => ({
+    name: String(t.Team),
+    gw:   +t['Games Won']   || 0,
+    gl:   +t['Games Lost']  || 0,
+    wp:    pct01(t['Win Percentage'] || 0),
+    np:   +t['Nights Played'] || 0
+  }));
+
+  const groups = {};
+  for (const e of entries) {
+    const k = `${e.gw}|${e.gl}`;
+    (groups[k] ||= []).push(e);
+  }
+
+  const X=[], Y=[], TEXT=[], SIZE=[], COLOR=[];
+  const R = 0.15; // jitter radius
+  for (const arr of Object.values(groups)) {
+    if (arr.length === 1) {
+      const e = arr[0];
+      X.push(e.gw); Y.push(e.gl); TEXT.push(e.name);
+      SIZE.push(Math.max(12, e.np*8)); COLOR.push(e.wp);
+    } else {
+      const n = arr.length;
+      for (let i=0; i<n; i++){
+        const e = arr[i], angle = (2*Math.PI*i)/n;
+        X.push(e.gw + R*Math.cos(angle));
+        Y.push(e.gl + R*Math.sin(angle));
+        TEXT.push(`${e.name} (same W-L)`); // clarifies identical record
+        SIZE.push(Math.max(12, e.np*8));
+        COLOR.push(e.wp);
+      }
+    }
+  }
+
+  const data = [{
+    x: X, y: Y, text: TEXT, mode:'markers',
+    marker: {
+      size: SIZE,
+      color: COLOR,
+      colorscale: 'Viridis',
+      showscale: true,
+      colorbar: { title:'Win %', tickformat:'.0%', outlinecolor:C.grid, tickfont:{color:C.text}, titlefont:{color:C.text} }
+    },
+    hovertemplate: '<b>%{text}</b><br>GW: %{x:.2f}<br>GL: %{y:.2f}<extra></extra>'
+  }];
+
+  const layout = {
+    ...baseLayout(id, 'Games Won vs Lost'),
+    xaxis: { title:'Games Won',  dtick:1, gridcolor:C.grid, zerolinecolor:C.grid },
+    yaxis: { title:'Games Lost', dtick:1, gridcolor:C.grid, zerolinecolor:C.grid }
+  };
+
+  return Plotly.newPlot(id, data, layout, CFG);
+}
+
+function plotPlayerBars(players){
+  // shape + score
+  const rows = (players||[])
+    .map(p => ({
+      Player: p.Player,
+      GW:  +p.GW || 0,
+      DBL: +(p['DBL IN'] || p['DBLIN'] || 0),
+      GF:  +p.GF || 0
+    }))
+    .map(p => ({...p, score: p.GW*2 + p.DBL + p.GF}))
+    .sort((a,b) => b.score - a.score)
+    .slice(0, 10);
+
+  const x  = rows.map(d => d.Player);
+  const gw = rows.map(d => d.GW);
+  const di = rows.map(d => d.DBL);
+  const gf = rows.map(d => d.GF);
+
+  const [c1, c2, c3] = barColors(3);
+  const id = 'barChart';
+  const outline = isDark() ? 'rgba(255,255,255,0.18)' : 'rgba(0,0,0,0.08)';
+
+  // sensible y-axis
+  const maxY = Math.max(1, ...gw, ...di, ...gf);
+  const niceMax = Math.max(1, Math.ceil(maxY * 1.2));      // a little headroom
+  const dtick   = niceMax <= 10 ? 1 : Math.ceil(niceMax / 8);
+
+  const traces = [
+    { x, y: gw, name: 'Games Won',      type:'bar', marker:{ color:c1, line:{color:outline, width:1} } },
+    { x, y: di, name: 'Double In',      type:'bar', marker:{ color:c2, line:{color:outline, width:1} } },
+    { x, y: gf, name: 'Games Finished', type:'bar', marker:{ color:c3, line:{color:outline, width:1} } }
+  ];
+
+  const layout = {
+    ...baseLayout(id, 'Top Players — GW / DBL IN / GF'),
+    barmode: 'group',
+    yaxis: { ...baseLayout(id).yaxis, rangemode:'tozero', range:[0, niceMax], dtick }
+  };
+
+  return animateFromZero(id, traces, layout);
+}
+
+function plotPlayerBubble(players){
+  const rows=(players||[]).map(p=>({name:p.Player, GP:+p.GP||0, GW:+p.GW||0, WP:pct01(p['Win %'])})).filter(r=>r.GP&&r.GW);
+  const id='bubbleChart', C=tokens();
+  return Plotly.newPlot(id,[{
+    x: rows.map(r=>r.GP), y: rows.map(r=>r.GW), text: rows.map(r=>r.name), mode:'markers',
+    marker:{
+      size: rows.map(r=> (r.WP*100)/2 + 10 ),
+      color: rows.map(r=> r.WP ),
+      colorscale:'Viridis', showscale:true,
+      colorbar:{ title:'Win %', tickformat:'.0%', outlinecolor:C.grid, tickfont:{color:C.text}, titlefont:{color:C.text} }
+    },
+    hovertemplate:'<b>%{text}</b><br>GP: %{x}<br>GW: %{y}<br>Win %: %{marker.color:.0%}<extra></extra>'
+  }], {...baseLayout(id,'Player Performance (Bubble)'), xaxis:{title:'Games Played'}, yaxis:{title:'Games Won'}}, CFG);
+}
+
+/* =========================
+   Fetch + boot (self-contained)
+   ========================= */
+async function fetchJSON(url){
+  const r=await fetch(url,{cache:'no-cache'}); if(!r.ok) throw new Error(url+' '+r.status);
+  const ct=r.headers.get('content-type')||''; if(!ct.includes('application/json')) throw new Error('non-JSON from '+url);
+  return r.json();
+}
+function mapTeams(src){
+  const arr = Array.isArray(src) ? src : (src.teamStandings || src.finalTeamStandings || []);
+  return arr.map(r=>({
+    Pos:r.Pos, Team:r.Team,
+    'Nights Played': +r['Nights Played']||0,
+    'Nights Won':    +r['Nights Won']||0,
+    'Nights Lost':   +r['Nights Lost']||0,
+    'Games Won':     +r['Games Won']||0,
+    'Games Lost':    +r['Games Lost']||0,
+    'Win Percentage': pct01(r['Win Percentage'])
+  }));
+}
+
+let TEAMS_CACHE=[], PLAYERS_CACHE=[];
+(async function boot(){
+  const STANDINGS_URL = localStorage.getItem('bulletin_json_url') || '/api/standings.php';
+  const PLAYERS_URL   = localStorage.getItem('players_url')       || '/server.php';
+
+  try { TEAMS_CACHE = mapTeams(await fetchJSON(STANDINGS_URL)); } catch(e){ console.warn('standings:', e.message); }
+  if (TEAMS_CACHE.length){ plotWinPct(TEAMS_CACHE); plotNightsWonLost(TEAMS_CACHE); plotGamesWonLost(TEAMS_CACHE); }
+
+  try { const p = await fetchJSON(PLAYERS_URL); PLAYERS_CACHE = Array.isArray(p)?p:(p.players||[]); } catch(e){ console.warn('players:', e.message); }
+  if (!PLAYERS_CACHE.length){ PLAYERS_CACHE=[{Player:'Sample A',GP:18,GW:12,'DBL IN':14,GF:9,'Win %':70},{Player:'Sample B',GP:20,GW:11,'DBL IN':11,GF:10,'Win %':55}]; }
+  plotPlayerBars(PLAYERS_CACHE); plotPlayerBubble(PLAYERS_CACHE);
+
+  // Recolor on theme flip using caches
+  new MutationObserver(m=>{
+    if (m.some(x=>x.attributeName==='data-theme')) {
+      if (TEAMS_CACHE.length){ plotWinPct(TEAMS_CACHE); plotNightsWonLost(TEAMS_CACHE); plotGamesWonLost(TEAMS_CACHE); }
+      if (PLAYERS_CACHE.length){ plotPlayerBars(PLAYERS_CACHE); plotPlayerBubble(PLAYERS_CACHE); }
+    }
+  }).observe(document.body,{attributes:true});
+})();
+
+/* Resize-aware width updates */
+window.addEventListener('resize', ()=>{
+  ['winPercentageChart','nightsWonLostChart','gamesWonLostChart','barChart','bubbleChart']
+    .forEach(id => Plotly.relayout(id, {width: elW(id)}));
+});
+</script>
+
+                
+
+
+
+
+</body>
+</html>

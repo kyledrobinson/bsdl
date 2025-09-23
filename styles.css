@@ -1,0 +1,986 @@
+/* =========================
+   Reset & Base
+   ========================= */
+   * { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* Anchor scrolling offset so header doesn't cover target sections */
+section[id] { scroll-margin-top: 90px; }
+@media (max-width: 768px) {
+  section[id] { scroll-margin-top: 72px; }
+}
+
+   :root {
+     /* Light Theme (Default) */
+     --bg-primary: #f8fbfa;
+     --bg-secondary: #ffffff;
+     --bg-header: #ffffff;
+     --bg-table: #ffffff;
+     --bg-table-header: #f8fbfa;
+     --text-primary: #0e1a13;
+     --text-secondary: #51946c;
+     --border-primary: #d1e6d9;
+     --border-secondary: #e8f2ec;
+     --button-bg: #e8f2ec;
+     --button-hover: #d1e6d9;
+     --link-card-bg: #ffffff;
+     --link-card-hover: #f7f3f0; /* fixed invalid color */
+     --accent: #38e07b;
+     --accent-hover: #2ec968;
+   
+     /* Motion & radius */
+     --radius-md: 12px;
+     --radius-sm: 8px;
+     --elev: 0 4px 12px rgba(81,148,108,.15);
+   }
+   
+   /* CSS-only dark mode: follow user's OS preference */
+   @media (prefers-color-scheme: dark) {
+     :root {
+       --bg-primary: #122118;
+       --bg-secondary: #1b3124;
+       --bg-header: #122118;
+       --bg-table: #122118;
+       --bg-table-header: #1b3124;
+       --text-primary: #ffffff;
+       --text-secondary: #96c5a9;
+       --border-primary: #366348;
+       --border-secondary: #264532;
+       --button-bg: #264532;
+       --button-hover: #2e5139;
+       --link-card-bg: #1b3124;
+       --link-card-hover: #234029;
+       --accent: #38e07b;
+       --accent-hover: #2ec968;
+     }
+   }
+   
+   [data-theme="dark"] {
+     --bg-primary: #122118;
+     --bg-secondary: #1b3124;
+     --bg-header: #122118;
+     --bg-table: #122118;
+     --bg-table-header: #1b3124;
+     --text-primary: #ffffff;
+     --text-secondary: #96c5a9;
+     --border-primary: #366348;
+     --border-secondary: #264532;
+     --button-bg: #264532;
+     --button-hover: #2e5139;
+     --link-card-bg: #1b3124;
+     --link-card-hover: #234029;
+     --accent: #38e07b;
+     --accent-hover: #2ec968;
+   }
+   
+   body {
+     font-family: "Be Vietnam Pro", "Noto Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+     background-color: var(--bg-primary);
+     color: var(--text-primary);
+     min-height: 100vh;
+     overflow-x: hidden;
+     transition: background-color .3s ease, color .3s ease;
+   }
+   
+   a { color: inherit; text-decoration: none; }
+   
+   button { font: inherit; }
+   
+   /* Focus styles for accessibility */
+   :focus-visible {
+     outline: 2px solid var(--text-secondary);
+     outline-offset: 2px;
+   }
+   
+   /* =========================
+      Header
+      ========================= */
+   .site-header {
+     display: flex; align-items: center; justify-content: space-between;
+     padding: 12px 40px;
+     border-bottom: 1px solid var(--border-secondary);
+     white-space: nowrap;
+     background-color: var(--bg-header);
+     transition: all .3s ease;
+   }
+   
+   .logo-section { display: flex; align-items: center; gap: 16px; color: var(--text-primary); }
+   .logo-icon { width: 16px; height: 16px; }
+   .site-title { font-size: 18px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.25; color: var(--text-primary); }
+   
+   .header-right { display: flex; flex: 1; justify-content: flex-end; gap: 32px; align-items: center; }
+   .nav-menu { display: flex; align-items: center; gap: 36px; }
+   .nav-link { color: var(--text-primary); font-size: 14px; font-weight: 500; transition: opacity .2s, color .2s; }
+   .nav-link:hover { opacity: .8; }
+   [data-theme="light"] .nav-link:hover { color: #51946c; opacity: 1; }
+   .nav-link.active { color: var(--text-secondary); position: relative; }
+   .nav-link.active::after {
+     content: "";
+     position: absolute; left: 0; right: 0; bottom: -6px; height: 2px;
+     background: var(--text-secondary); border-radius: 2px;
+   }
+   
+   .theme-toggle {
+     display: flex; align-items: center; justify-content: center;
+     background: var(--button-bg); color: var(--text-primary);
+     border: none; border-radius: 50px; height: 40px; padding: 0 10px; cursor: pointer;
+     font-size: 14px; font-weight: 700; letter-spacing: .015em; transition: background-color .3s ease;
+   }
+   .theme-toggle:hover { background: var(--button-hover); }
+   .theme-icon { width: 20px; height: 20px; transition: transform .3s ease; }
+   .theme-toggle:hover .theme-icon { transform: rotate(20deg); }
+   
+   .profile-avatar { width: 40px; height: 40px; border-radius: 50%; background-size: cover; background-position: center; }
+   
+   /* =========================
+      Layout
+      ========================= */
+   .main-content { padding: 20px 160px; display: flex; justify-content: center; }
+   .content-wrapper { display: flex; flex-direction: column; max-width: 960px; flex: 1; }
+   
+   /* =========================
+      Hero
+      ========================= */
+
+      /* =========================
+   Hero (single source of truth)
+   ========================= */
+.hero-container { padding: 16px; }
+
+.hero-banner{
+  /* layout */
+  position: relative;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end; gap: 32px;
+
+  /* your preferred desktop sizing/placement */
+  min-height: 480px;
+  padding: 24px;
+  border-radius: var(--radius-md);
+
+  /* background image behavior (keep your inline gradient+url in HTML) */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center 15%;
+}
+
+/* soft bottom gradient to keep white text readable over the photo */
+.hero-banner::after{
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none; border-radius: inherit;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,.55) 0%,
+    rgba(0,0,0,.30) 34%,
+    rgba(0,0,0,0)   60%
+  );
+}
+
+.hero-content{
+  position: relative; z-index: 1;  /* above gradient */
+  display: flex; flex-direction: column; gap: 8px;
+  text-align: center; color: #fff;
+}
+
+.hero-title{
+  color: #fff;
+  font-weight: 900; letter-spacing: -0.033em; line-height: 1.125;
+  font-size: clamp(32px, 4.5vw, 48px);
+  text-shadow: 0 2px 8px rgba(0,0,0,.35);
+}
+.hero-subtitle{
+  color: #eaf7f0;
+}
+
+  /* Responsive hero image */
+.hero-image {
+    width: 100%;
+    height: auto;
+    max-height: 60vh;             /* cap height on small screens */
+    object-fit: cover;            /* crop to fill without stretching */
+    object-position: center 20%;  /* adjust vertical crop (20% from top) */
+    border-radius: 8px;           /* optional: match your card rounding */
+  }
+  
+  @media (min-width: 768px) {
+    .hero-image {
+      max-height: 500px;          /* desktop cap */
+      object-position: center;    /* center the crop */
+    }
+  }
+  
+
+   .cta-button:hover { background: var(--accent-hover); }
+   
+   /* =========================
+      Section Titles + Date Badge
+      ========================= */
+   .section-title { color: var(--text-primary); font-size: 22px; font-weight: 700; line-height: 1.125; letter-spacing: -0.015em; padding: 20px 16px 12px; }
+   
+   .section-title-row { display: flex; align-items: center; gap: 12px; padding: 20px 16px 12px; }
+   .section-title-row .section-title { padding: 0; }
+   
+   .standings-date-badge {
+     display: inline-flex; align-items: center; gap: 6px;
+     padding: 6px 10px; border-radius: 999px;
+     font-size: 13px; font-weight: 600; line-height: 1;
+     background: var(--bg-table-header); color: var(--text-secondary);
+     border: 1px solid var(--border-primary);
+   }
+   
+   /* remove any legacy in-table date headers */
+   #standings .standings-header { display: none !important; }
+   
+   /* =========================
+      Announcement Card
+      ========================= */
+   .announcement-card { padding: 16px; }
+   .announcement-content { display: flex; align-items: stretch; justify-content: space-between; gap: 16px; border-radius: var(--radius-md); }
+   .announcement-text { display: flex; flex-direction: column; gap: 4px; flex: 2; }
+   .announcement-label { color: var(--text-secondary); font-size: 14px; }
+   .announcement-title { color: var(--text-primary); font-size: 16px; font-weight: 700; line-height: 1.25; }
+   .announcement-description { color: var(--text-secondary); font-size: 14px; }
+   .announcement-image {
+    flex: 1; width: 100%; aspect-ratio: 4/3; background-size: cover; background-position: center 45%; background-repeat: no-repeat;
+    border-radius: var(--radius-md);
+    position: relative; overflow: hidden;
+  }
+  .announcement-image::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
+    border-radius: inherit; pointer-events: none;
+  }
+   
+   /* =========================
+      Tables
+      ========================= */
+   .table-container { padding: 12px 16px; }
+   
+   .matches-table-wrapper {
+     display: flex; overflow: hidden; border-radius: var(--radius-md);
+     border: 1px solid var(--border-primary); background: var(--bg-table);
+     transition: all .3s ease;
+   }
+   
+   .matches-table { flex: 1; width: 100%; border-collapse: collapse; }
+   .matches-table thead tr { background: var(--bg-table-header); }
+   
+   .matches-table th {
+     padding: 12px 16px; text-align: left; color: var(--text-primary);
+     font-size: 14px; font-weight: 500; line-height: 1; width: 25%;
+     
+   }
+   
+   /* Body rows */
+   .matches-table tbody tr { border-top: 1px solid var(--border-primary); transition: background-color .2s; }
+   [data-theme="light"] .matches-table tbody tr:hover { background: var(--bg-table-header); }
+   
+   /* Default cell padding (no fixed height globally) */
+   .matches-table td {
+     padding: 10px 16px;            /* balanced default */
+     color: var(--text-secondary);
+     font-size: 14px;
+     vertical-align: middle;
+   }
+
+   /* Team Standings: lock tighter ~62px rows WITHOUT affecting other tables */
+   #standings #teamStandings.matches-table td { height: 62px; padding: 10px 12px; }
+   #standings #teamStandings.matches-table th { padding: 10px 12px; }
+   
+   /* Optional: keep long team names from wrapping */
+   #standings #teamStandings.matches-table td:nth-child(2) {
+     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+   }
+   
+   /* Sorting indicators */
+   #standings table.matches-table th { cursor: pointer; user-select: none; }
+   #standings table.matches-table th.sort-asc::after  { content: " ▲"; }
+   #standings table.matches-table th.sort-desc::after { content: " ▼"; }
+   
+   /* Search input */
+   #standings .search-container input {
+     width: 100%; max-width: 320px; border: 1px solid var(--border-primary);
+     background: var(--bg-secondary); color: var(--text-primary);
+     border-radius: 8px; padding: 10px 12px; outline: none;
+   }
+   #standings .search-container input::placeholder { color: var(--text-secondary); }
+   
+   /* =========================
+      Week Tabs (single row, scrollable)
+      ========================= */
+   .week-tabs, #upcomingWeekTabs {
+     display: flex; flex-wrap: nowrap; gap: 8px;
+     padding: 0 16px 14px;
+     overflow-x: auto; -webkit-overflow-scrolling: touch;
+     scrollbar-gutter: stable both-edges;
+   }
+   .week-tabs button[role="tab"], #upcomingWeekTabs button[role="tab"] {
+     flex: 0 0 auto; white-space: nowrap;
+     padding: 6px 10px; border-radius: 999px;
+     border: 1px solid var(--border-primary);
+     background: var(--bg-secondary); color: var(--text-primary);
+     font-weight: 600; cursor: pointer;
+   }
+   .week-tabs button.selected,
+   .week-tabs button[aria-selected="true"],
+   #upcomingWeekTabs button.selected,
+   #upcomingWeekTabs button[aria-selected="true"] {
+     background: var(--bg-table-header); color: var(--text-secondary);
+     outline: 2px solid var(--border-primary);
+   }
+   
+   /* =========================
+      Quick Links
+      ========================= */
+   .quick-links-grid {
+     display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr));
+     gap: 12px; padding: 16px;
+   }
+   .link-card {
+     display: flex; gap: 12px; align-items: center;
+     border-radius: var(--radius-sm); border: 1px solid var(--border-primary);
+     background: var(--link-card-bg); padding: 16px; cursor: pointer;
+     transition: all .3s ease;
+   }
+   .link-card:hover { background: var(--link-card-hover); }
+   [data-theme="light"] .link-card:hover { border-color: #51946c; transform: translateY(-2px); box-shadow: var(--elev); }
+   .link-card-icon { color: var(--text-primary); }
+   .link-card-title { color: var(--text-primary); font-size: 16px; font-weight: 700; line-height: 1.25; }
+   
+   /* Theme icons */
+   .sun-icon { display: none; }
+   .moon-icon { display: block; }
+   [data-theme="dark"] .sun-icon { display: block; }
+   [data-theme="dark"] .moon-icon { display: none; }
+   
+   /* =========================
+      Venue Highlight Helpers (optional)
+      ========================= */
+   td.venue-coronation,
+   td.venue-japas {
+     background: var(--bg-table-header);
+     border-left: 1px solid var(--border-primary);
+     border-right: 1px solid var(--border-primary);
+   }
+   
+   /* If you already use .green-highlight / .orange-highlight, keep them */
+   td.green-highlight { background: var(--bg-table-header); }
+   td.orange-highlight { background: color-mix(in oklab, var(--bg-table-header) 60%, #f9c77c); } /* subtle warm tint */
+   
+   /* =========================
+      Responsive
+      ========================= */
+   @media (max-width: 1024px) {
+     .main-content { padding: 20px 40px; }
+   }
+   @media (max-width: 768px) {
+    .main-content { padding: 20px; }
+    .site-header { padding: 12px 20px; }
+    .nav-menu { display: none; }
+
+    .announcement-content { flex-direction: column; }
+   
+     /* Table density on mobile */
+     .matches-table { font-size: 12px; }
+     .matches-table th, .matches-table td { padding: 8px 10px; }
+   
+     /* Keep our standings row tightening on mobile too */
+     #standings #teamStandings.matches-table td { padding: 10px; height: 58px; }
+     #standings #teamStandings.matches-table th { padding: 8px 10px; }
+   }
+
+   /* Upcoming Matches: 5-column layout that reads cleanly */
+.upcoming-table {
+    table-layout: fixed;                /* respect our explicit widths */
+  }
+  
+  .upcoming-table th,
+  .upcoming-table td {
+    width: auto;                        /* reset any inherited 25% */
+    overflow: hidden;                   /* ellipsis for long names */
+    text-overflow: ellipsis;
+    vertical-align: middle;
+  }
+  
+  /* Column sizing: Date | Time | Home | Away | Venue */
+  .upcoming-table th:nth-child(1),
+  .upcoming-table td:nth-child(1) {     /* Date */
+    width: 18ch;
+    white-space: nowrap;
+  }
+  
+  .upcoming-table th:nth-child(2),
+  .upcoming-table td:nth-child(2) {     /* Time */
+    width: 8ch;
+    white-space: nowrap;
+  }
+  
+  .upcoming-table th:nth-child(5),
+  .upcoming-table td:nth-child(5) {     /* Venue */
+    width: 22ch;
+    white-space: nowrap;
+  }
+  
+  /* Home/Away flex into the remaining space nicely */
+  .upcoming-table th:nth-child(3),
+  .upcoming-table td:nth-child(3),
+  .upcoming-table th:nth-child(4),
+  .upcoming-table td:nth-child(4) {
+    width: auto;
+  }
+  
+  /* Mobile: keep it readable without wrapping Date/Time */
+  @media (max-width: 768px) {
+    .upcoming-table th:nth-child(1),
+    .upcoming-table td:nth-child(1) { width: 16ch; }
+    .upcoming-table th:nth-child(2),
+    .upcoming-table td:nth-child(2) { width: 7ch; }
+  }
+
+  
+    /* Tabs: 12 columns, one line, no scroll */
+    #upcomingWeekTabs {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 8px;                 /* adjust if you want tighter spacing */
+      align-items: stretch;
+    }
+  
+    /* Make each button fill its cell and be shrinkable */
+    #upcomingWeekTabs .week-tab {
+      width: 100%;
+      min-width: 0;             /* allow text to shrink instead of force overflow */
+      white-space: nowrap;
+      border-radius: 9999px;
+      padding: var(--pad-v, 6px) var(--pad-h, 10px);
+      font-size: clamp(9px, 0.75rem + 0.12vw, 11px) !important;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+  
+    /* Active/selected (tweak to your theme) */
+    #upcomingWeekTabs .week-tab[aria-selected="true"],
+    #upcomingWeekTabs .week-tab.active {
+      outline: 2px solid rgba(255,255,255,.25);
+    }
+  
+    /* Label variants: full / short / tiny */
+    #upcomingWeekTabs .label-full  { display: inline; }
+    #upcomingWeekTabs .label-short { display: none; }
+    #upcomingWeekTabs .label-tiny  { display: none; }
+  
+    /* Medium screens: “W12” */
+    @media (max-width: 820px) {
+      #upcomingWeekTabs .label-full  { display: none; }
+      #upcomingWeekTabs .label-short { display: inline; }
+      #upcomingWeekTabs .label-tiny  { display: none; }
+      #upcomingWeekTabs .week-tab { --fs: 13px; --pad-v: 6px; --pad-h: 8px; }
+    }
+  
+    /* Small screens: “12” */
+    @media (max-width: 560px) {
+      #upcomingWeekTabs .label-full  { display: none; }
+      #upcomingWeekTabs .label-short { display: none; }
+      #upcomingWeekTabs .label-tiny  { display: inline; }
+      #upcomingWeekTabs .week-tab { --fs: 12px; --pad-v: 4px; --pad-h: 6px; }
+    }
+   
+    /* =========================
+   Players — search + joint horizontal scroll
+   (append at END)
+   ========================= */
+
+/* 1) Style the Players search input (match Standings) */
+#player .search-container {
+  padding: 0 16px 8px;
+}
+#player .search-container input {
+  width: 100%;
+  max-width: 320px;
+  border: 1px solid var(--border-primary);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border-radius: 8px;
+  padding: 10px 12px;
+  outline: none;
+}
+#player .search-container input::placeholder { color: var(--text-secondary); }
+
+/* 2) Make the whole Players section scroll horizontally
+      so the SEARCH BAR and TABLE move together */
+#player.table-container,
+#player {                /* cover both markup variants */
+  overflow-x: auto;      /* horizontal scroll on the section */
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 3) Let the inner wrapper/table expand to real content width,
+      but keep your existing rounded frame intact */
+#player .matches-table-wrapper {
+  width: max-content;    /* wrapper grows to table width; border stays */
+}
+#playerStandings {
+  table-layout: auto;    /* avoid fixed column squish */
+  width: max-content;    /* table grows to fit all columns */
+  min-width: 1400px;     /* tweak to taste */
+}
+#playerStandings th,
+#playerStandings td {
+  white-space: nowrap;   /* keep numbers on one line */
+}
+
+/*custom scroll*/
+
+/* =========================
+   Players — themed search input (light/dark)
+   ========================= */
+
+/* Container spacing (same as Standings) */
+#player .search-container { padding: 0 16px 8px; }
+
+/* Themed input */
+#player .search-container input {
+  appearance: none;
+  width: 100%;
+  max-width: 360px;
+
+  /* Use your site tokens so it auto-themes */
+  background-color: var(--bg-secondary);
+  color:            var(--text-primary);
+  border: 1px solid var(--border-primary);
+
+  border-radius: 12px;
+  line-height: 1.2;
+  padding: 10px 12px 10px 40px; /* left space for icon */
+  outline: none;
+  transition: background-color .2s ease, color .2s ease,
+              border-color .2s ease, box-shadow .2s ease;
+
+  /* Search icon (SVG, inherits currentColor) */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='currentColor' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11' cy='11' r='7' stroke-width='2'/%3E%3Cpath d='M20 20l-3.5-3.5' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  background-size: 18px 18px;
+  color-scheme: light dark; /* better caret/selection on both themes */
+}
+
+#player .search-container input::placeholder {
+  color: var(--text-secondary);
+  opacity: 1; /* Firefox */
+}
+
+/* Hover/focus states (subtle ring that works on both themes) */
+#player .search-container input:hover {
+  border-color: color-mix(in oklab, var(--border-primary), var(--text-primary) 25%);
+}
+
+#player .search-container input:focus {
+  border-color: color-mix(in oklab, var(--border-primary), var(--text-primary) 40%);
+}
+
+/* Players: search + table scroll together (outer container scroll) */
+#player {
+  overflow-x: auto;              /* scroll this container */
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Inner wrapper: grow to content, no own scrollbar */
+#player .matches-table-wrapper {
+  overflow-x: visible;           /* disable inner scroll */
+  width: max-content;            /* wrapper width = table width */
+  display: inline-block;         /* helps some browsers honor max-content */
+}
+
+/* Table: keep full width, no squish */
+#playerStandings {
+  table-layout: auto;
+  width: max-content;
+  min-width: 1400px;             /* tweak as you like */
+  white-space: nowrap;
+}
+#playerStandings th, #playerStandings td {
+  white-space: nowrap;
+}
+
+/* Optional: themed horizontal scrollbar for the players section */
+#player::-webkit-scrollbar { height: 10px; }
+#player::-webkit-scrollbar-track { background: var(--bg-secondary); }
+#player::-webkit-scrollbar-thumb {
+  background: var(--border-primary);
+  border-radius: 999px;
+}
+
+/* Skunk icon sizing/alignment in table headers */
+#teamStandings th .th-emoji {
+  font-size: 1rem;        /* tweak: 0.95–1.1rem if you like */
+  margin-right: 4px;
+  line-height: 1;
+}
+
+/* Optional: on very small screens, show only the icon + letter */
+@media (max-width: 560px) {
+  #teamStandings th .th-text { /* the W / L */
+    display: inline; /* set to none if you want icon-only */
+  }
+}
+
+/* =========================
+   Article / Prose (Constitution page)
+   ========================= */
+
+.article-header { padding: 8px 16px 0; }
+.article-header-inner {
+  display: grid;
+  gap: 4px;
+  padding: 20px 16px;
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+}
+.article-eyebrow {
+  color: var(--text-secondary);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.article-title { color: var(--text-primary); font-size: 28px; font-weight: 900; letter-spacing: -0.02em; }
+.article-subtitle { color: var(--text-secondary); font-size: 14px; }
+
+/* Local TOC */
+.toc {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 12px 16px 16px;
+}
+.toc-link {
+  display: inline-flex; align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 13px;
+}
+[data-theme="light"] .toc-link:hover { background: var(--bg-table-header); border-color: #51946c; }
+
+/* Article card */
+.article-card {
+  margin: 0 16px 24px;
+  padding: 20px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--elev);
+}
+
+/* Constitution intro split: main text + right aside */
+.intro-split {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 16px;
+  align-items: start;
+  margin-bottom: 12px;
+}
+.intro-main p { margin: 0 0 8px; }
+.article-aside {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  padding: 12px;
+}
+.aside-image {
+  width: 100%; 
+  aspect-ratio: 16/9; 
+  border-radius: var(--radius-sm);
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat;
+  position: relative; 
+  overflow: hidden; 
+  margin-bottom: 10px;
+}
+.aside-image::before {
+  content: ""; 
+  position: absolute; 
+  inset: 0;
+  background: linear-gradient(rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%);
+  border-radius: inherit; 
+  pointer-events: none;
+}
+.article-aside h3 { margin-bottom: 6px; }
+
+@media (max-width: 768px) {
+  .intro-split { grid-template-columns: 1fr; }
+}
+
+/* Prose typography */
+.prose { line-height: 1.7; font-size: 16px; color: var(--text-primary); }
+.prose p { margin: 0 0 12px; color: var(--text-primary); }
+.prose h2 { font-size: 22px; margin: 20px 0 8px; font-weight: 800; letter-spacing: -0.015em; }
+.prose h3 { font-size: 18px; margin: 16px 0 8px; font-weight: 800; }
+.prose strong { color: var(--text-primary); }
+
+/* Lists: cleaner spacing; hide manual <br> inside LIs */
+.prose ul, .prose ol { margin: 0 0 16px 20px; padding-left: 20px; }
+.prose li { margin: 6px 0; color: var(--text-secondary); }
+.prose li br { display: none; }
+.prose ol { list-style: decimal; }
+.prose ul { list-style: disc; }
+
+/* Contact page: tighter list for officers */
+.prose ul.officers-list { margin: 0 0 8px 20px; }
+.prose ul.officers-list li { margin: 2px 0; }
+
+/* Sections spacing inside article */
+.prose section + section { margin-top: 20px; padding-top: 12px; border-top: 1px solid var(--border-secondary); }
+
+/* Small screens */
+@media (max-width: 768px) {
+  .article-card { margin: 0 8px 20px; padding: 16px; }
+  .article-title { font-size: 24px; }
+}
+
+/* =========================
+   Forms (Contact page)
+   ========================= */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.form-field-full { grid-column: 1 / -1; }
+
+.form-field label {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.form-field input,
+.form-field textarea {
+  appearance: none;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border-primary);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  padding: 12px 14px;
+  font: inherit;
+  line-height: 1.3;
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease, color .2s ease;
+}
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: var(--text-secondary);
+}
+.form-field input:focus,
+.form-field textarea:focus {
+  border-color: color-mix(in oklab, var(--border-primary), var(--text-primary) 35%);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--border-primary), var(--text-primary) 20%);
+}
+
+.form-actions { grid-column: 1 / -1; display: flex; gap: 8px; }
+
+@media (max-width: 640px) {
+  .form-grid { grid-template-columns: 1fr; }
+}
+
+/* =========================
+   CONSOLIDATED OVERRIDES — Charts & Players (place at end of file)
+   ========================= */
+  
+  /* === Charts: 2-col desktop, 1-col mobile — left aligned === */
+:root{
+  --link-card: 223px;
+  --chart-max: calc(var(--link-card) * 2); /* 446px */
+  --chart-gap: 24px;
+}
+
+/* 1-col on mobile; snaps to 2 cols on desktop */
+#charts{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--chart-gap);
+  justify-content: start;
+
+  /* hug the left edge of your content area */
+  width: 100%;
+  margin: 8px 0 0 0;
+  place-content: start;  /* pack tracks at start */
+  place-items: start;    /* left-align items in cells */
+}
+
+#charts .chart{
+  width: 100%;
+  max-width: var(--chart-max);  /* <= 446px each */
+  margin: 0;
+  min-height: 300px;            /* shorter so bars aren’t stretched */
+}
+
+@media (min-width: 980px){
+  #charts{
+    grid-template-columns: repeat(2, minmax(0, var(--chart-max)));
+  }
+  #charts .chart{
+    min-height: 320px;          /* a touch taller on desktop */
+  }
+  /* If odd number of charts, center the last one; delete this to left-align it */
+  #charts .chart:nth-last-child(1):nth-child(odd){
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 979px){
+  #charts .chart{ min-height: 280px; }
+  #charts, #charts .chart{ touch-action: pan-y; }
+}
+
+  
+
+/* gridlines readable on dark background */
+[data-theme="dark"] .js-plotly-plot .cartesianlayer .gridlayer line,
+[data-theme="dark"] .js-plotly-plot .cartesianlayer .zerolinelayer line {
+  stroke: rgba(255,255,255,0.16) !important;
+}
+
+/* =========================
+   Players — search + table scroll (consolidated)
+   ========================= */
+
+/* Search container spacing */
+#player .search-container { padding: 0 16px 8px; }
+
+/* Themed input with built-in magnifier icon */
+#player .search-container input {
+  appearance: none;
+  width: 100%;
+  max-width: 360px;
+
+  background-color: var(--bg-secondary);
+  color:            var(--text-primary);
+  border: 1px solid var(--border-primary);
+
+  border-radius: 12px;
+  line-height: 1.2;
+  padding: 10px 12px 10px 40px; /* left space for icon */
+  outline: none;
+  transition: background-color .2s ease, color .2s ease,
+              border-color .2s ease, box-shadow .2s ease;
+  color-scheme: light dark;
+
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='currentColor' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11' cy='11' r='7' stroke-width='2'/%3E%3Cpath d='M20 20l-3.5-3.5' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  background-size: 18px 18px;
+}
+#player .search-container input::placeholder {
+  color: var(--text-secondary);
+  opacity: 1;
+}
+#player .search-container input:hover {
+  border-color: color-mix(in oklab, var(--border-primary), var(--text-primary) 25%);
+}
+#player .search-container input:focus {
+  border-color: color-mix(in oklab, var(--border-primary), var(--text-primary) 40%);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--border-primary), var(--text-primary) 22%);
+}
+
+/* Outer container scrolls horizontally so search + table move together */
+#player {
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Inner wrapper/table expand to content width; keep the frame */
+#player .matches-table-wrapper {
+  overflow-x: visible;
+  width: max-content;
+  display: inline-block;
+}
+#playerStandings {
+  table-layout: auto;
+  width: max-content;
+  min-width: 1400px;
+  white-space: nowrap;
+}
+#playerStandings th,
+#playerStandings td { white-space: nowrap; }
+
+/* Optional: themed horizontal scrollbar */
+#player::-webkit-scrollbar { height: 10px; }
+#player::-webkit-scrollbar-track { background: var(--bg-secondary); }
+#player::-webkit-scrollbar-thumb {
+  background: var(--border-primary);
+  border-radius: 999px;
+}
+
+
+/* Chart palette tokens */
+:root, [data-theme="light"] {
+  --chart-1: #38e07b;  /* accent (green)   */
+  --chart-2: #49a8e4;  /* sky blue         */
+  --chart-3: #9d7dff;  /* lavender         */
+  --chart-4: #8bd4a0;  /* mint             */
+  --chart-5: #ffc857;  /* warm amber       */
+  --chart-6: #ff7aa2;  /* pink             */
+}
+
+/* Brighter, higher-contrast set for DARK bg */
+[data-theme="dark"] {
+  --chart-1: #9af5b6;  /* light mint       */
+  --chart-2: #80cfff;  /* light sky        */
+  --chart-3: #d6b3ff;  /* light lavender   */
+  --chart-4: #ffe07a;  /* light amber      */
+  --chart-5: #7df0d6;  /* aqua             */
+  --chart-6: #ff9ac2;  /* light pink       */
+}
+
+
+/* Force all Plotly SVG text to use theme color in dark mode */
+[data-theme="dark"] .js-plotly-plot text {
+  fill: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .js-plotly-plot .cartesianlayer .gridlayer line,
+[data-theme="dark"] .js-plotly-plot .cartesianlayer .zerolinelayer line {
+  stroke: rgba(255,255,255,0.16) !important;
+}
+
+#charts-title { text-align: left; }
+
+
+/* Plotly dark-mode readability on mobile (and everywhere) */
+[data-theme="dark"] .js-plotly-plot text,
+[data-theme="dark"] .js-plotly-plot .gtitle,
+[data-theme="dark"] .js-plotly-plot .g-xtitle,
+[data-theme="dark"] .js-plotly-plot .g-ytitle,
+[data-theme="dark"] .js-plotly-plot .legend text,
+[data-theme="dark"] .js-plotly-plot .colorbar text {
+  fill: var(--text-primary) !important; /* e.g., #eaf7f0 from your theme */
+}
+
+/* brighten Plotly grid/zero lines for dark bg */
+[data-theme="dark"] .js-plotly-plot .gridlayer line { stroke: rgba(255,255,255,0.18) !important; }
+[data-theme="dark"] .js-plotly-plot .zerolinelayer line,
+[data-theme="dark"] .js-plotly-plot .xlines-above path,
+[data-theme="dark"] .js-plotly-plot .ylines-above path {
+  stroke: rgba(255,255,255,0.22) !important;
+}
+
+/* If the device forces dark (user didn’t tap your toggle), make text readable anyway */
+@media (prefers-color-scheme: dark) {
+  .js-plotly-plot text { fill: #eaf7f0 !important; }
+  .js-plotly-plot .gridlayer line { stroke: rgba(255,255,255,0.18) !important; }
+  .js-plotly-plot .zerolinelayer line,
+  .js-plotly-plot .xlines-above path,
+  .js-plotly-plot .ylines-above path { stroke: rgba(255,255,255,0.22) !important; }
+}

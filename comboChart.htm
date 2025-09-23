@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combined Charts Visualization</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        .chart-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .chart {
+            width: 45%;
+            min-width: 400px;
+            margin: 10px;
+        }
+        #gamesWonLostChart, #bubbleChart, #barChart {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        @media only screen and (max-width: 640px) {
+            .chart-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .chart {
+                width: 95%;
+                min-width: unset;
+            }
+            #gamesWonLostChart, #bubbleChart, #barChart {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Team Standings Charts -->
+    <div class="chart-container">
+        <div id="winPercentageChart" class="chart"></div>
+        <div id="nightsWonLostChart" class="chart"></div>
+    </div>
+    <div id="gamesWonLostChart"></div>
+
+    <!-- Player Statistics Charts -->
+    <div id="barChart" style="width:100%;max-width:800px;"></div>
+    <div id="bubbleChart" style="width:100%;max-width:900px;"></div>
+
+    <script>
+    try {
+        // Team Standings Data
+var teamData = [
+  {Pos: 1, Team: "Kilkenny", "Nights Played": 17, "Nights Won": 16, "Nights Lost": 1, "Games Won": 171, "Games Lost": 84, "Win Percentage": 0.671},
+  {Pos: 2, Team: "Highwaymen", "Nights Played": 16, "Nights Won": 11, "Nights Lost": 5, "Games Won": 141, "Games Lost": 101, "Win Percentage": 0.583},
+  {Pos: 3, Team: "Wombles", "Nights Played": 16, "Nights Won": 11, "Nights Lost": 5, "Games Won": 139, "Games Lost": 105, "Win Percentage": 0.570},
+  {Pos: 4, Team: "Clamour", "Nights Played": 16, "Nights Won": 9, "Nights Lost": 6, "Games Won": 132, "Games Lost": 110, "Win Percentage": 0.545},
+  {Pos: 5, Team: "Dart Attack", "Nights Played": 17, "Nights Won": 9, "Nights Lost": 8, "Games Won": 130, "Games Lost": 125, "Win Percentage": 0.510},
+  {Pos: 6, Team: "Darty McFly", "Nights Played": 17, "Nights Won": 8, "Nights Lost": 7, "Games Won": 128, "Games Lost": 131, "Win Percentage": 0.493},
+  {Pos: 7, Team: "Shooters", "Nights Played": 16, "Nights Won": 9, "Nights Lost": 7, "Games Won": 125, "Games Lost": 116, "Win Percentage": 0.519},
+  {Pos: 8, Team: "Bullshooters", "Nights Played": 16, "Nights Won": 5, "Nights Lost": 10, "Games Won": 103, "Games Lost": 139, "Win Percentage": 0.426},
+  {Pos: 9, Team: "Torpedoes", "Nights Played": 17, "Nights Won": 4, "Nights Lost": 12, "Games Won": 102, "Games Lost": 151, "Win Percentage": 0.403},
+  {Pos: 10, Team: "Screwballs", "Nights Played": 16, "Nights Won": 4, "Nights Lost": 12, "Games Won": 96, "Games Lost": 149, "Win Percentage": 0.392},
+  {Pos: 11, Team: "Dartacus", "Nights Played": 16, "Nights Won": 1, "Nights Lost": 14, "Games Won": 93, "Games Lost": 152, "Win Percentage": 0.380}
+];
+        // Sort by Win Percentage
+        teamData.sort((a, b) => b["Win Percentage"] - a["Win Percentage"]);
+
+        function createPlot(divId, traces, layout) {
+            Plotly.newPlot(divId, traces, layout, {responsive: true});
+        }
+
+        // Win Percentage Chart
+        var winPercentageTrace = {
+            x: teamData.map(d => d.Team),
+            y: teamData.map(d => d["Win Percentage"]),
+            type: 'bar',
+            marker: {
+                color: teamData.map(d => d["Win Percentage"]),
+                colorscale: 'Viridis'
+            },
+            text: teamData.map(d => (d["Win Percentage"] * 100).toFixed(1) + '%'),
+            textposition: 'auto'
+        };
+        var winPercentageLayout = {
+            title: 'Team Win Percentage',
+            xaxis: {title: 'Team', tickangle: -45},
+            yaxis: {title: 'Win Percentage', range: [0, 1]},
+            height: 400,
+            margin: {b: 100, l: 50, r: 20, t: 50},
+            autosize: true
+        };
+        createPlot('winPercentageChart', [winPercentageTrace], winPercentageLayout);
+
+        // Nights Won vs Lost Chart
+        var nightsWonTrace = {
+            x: teamData.map(d => d.Team),
+            y: teamData.map(d => d["Nights Won"]),
+            name: 'Nights Won',
+            type: 'bar',
+            marker: {color: '#21908C'}
+        };
+        var nightsLostTrace = {
+            x: teamData.map(d => d.Team),
+            y: teamData.map(d => d["Nights Lost"]),
+            name: 'Nights Lost',
+            type: 'bar',
+            marker: {color: '#440154'}
+        };
+        var nightsWonLostLayout = {
+            title: 'Nights Won vs Lost by Team',
+            barmode: 'stack',
+            xaxis: {title: 'Team', tickangle: -45},
+            yaxis: {title: 'Number of Nights'},
+            height: 400,
+            margin: {b: 100, l: 50, r: 20, t: 50},
+            autosize: true
+        };
+        createPlot('nightsWonLostChart', [nightsWonTrace, nightsLostTrace], nightsWonLostLayout);
+
+        // Games Won vs Lost Chart
+        var gamesWonLostTrace = {
+            x: teamData.map(d => d["Games Won"]),
+            y: teamData.map(d => d["Games Lost"]),
+            mode: 'markers',
+            text: teamData.map(d => d.Team),
+            marker: {
+                size: teamData.map(d => d["Nights Played"] * 10),
+                color: teamData.map(d => d["Win Percentage"]),
+                colorscale: 'Viridis',
+                showscale: true,
+                colorbar: {title: 'Win Percentage'}
+            },
+            hovertemplate: '<b>%{text}</b><br>Games Won: %{x}<br>Games Lost: %{y}<br>Win %: %{marker.color:.1%}<extra></extra>'
+        };
+        var gamesWonLostLayout = {
+            title: 'Games Won vs Lost by Team',
+            xaxis: {title: 'Games Won'},
+            yaxis: {title: 'Games Lost'},
+            height: 500,
+            margin: {l: 50, r: 50, t: 50, b: 50},
+            autosize: true
+        };
+        createPlot('gamesWonLostChart', [gamesWonLostTrace], gamesWonLostLayout);
+
+        // Player statistics (bar chart)
+var playerBarData = [
+  // Updated using: Player, GW, DBL IN, GF, and score (derived from the first win percentage)
+  // Using: Player, GW, DBL IN, GF, and score (from the first win percentage, without the "%" symbol)
+  {Player: "Matthew Boyes", GW: 49, "DBL IN": 60, GF: 41, score: 61},
+  {Player: "Dalton Harrison", GW: 59, "DBL IN": 55, GF: 38, score: 70},
+  {Player: "Kevin Fernandez", GW: 45, "DBL IN": 62, GF: 37, score: 56},
+  {Player: "Stacey Moreno", GW: 54, "DBL IN": 52, GF: 36, score: 68},
+  {Player: "Steve Menezes", GW: 51, "DBL IN": 65, GF: 36, score: 64},
+  {Player: "Austin Macedo", GW: 49, "DBL IN": 57, GF: 35, score: 61},
+  {Player: "Jim Morrison", GW: 54, "DBL IN": 52, GF: 34, score: 68},
+  {Player: "Steve Macedo", GW: 45, "DBL IN": 46, GF: 32, score: 63},
+  {Player: "Richard Renaud", GW: 49, "DBL IN": 49, GF: 32, score: 67},
+  {Player: "Melissa Firth", GW: 39, "DBL IN": 45, GF: 27, score: 51}
+];
+
+        playerBarData.forEach(player => {
+            player.score = player.GW * 2 + player["DBL IN"] + player.GF;
+        });
+
+        playerBarData.sort((a, b) => b.score - a.score);
+
+        var barPlayers = playerBarData.map(d => d.Player);
+        var gamesWon = playerBarData.map(d => d.GW);
+        var doubleIn = playerBarData.map(d => d["DBL IN"]);
+        var gamesFinished = playerBarData.map(d => d.GF);
+
+        var barTrace1 = {
+            x: barPlayers,
+            y: gamesWon,
+            name: 'Games Won',
+            type: 'bar',
+            marker: {color: '#440154'}
+        };
+        var barTrace2 = {
+            x: barPlayers,
+            y: doubleIn,
+            name: 'Double In',
+            type: 'bar',
+            marker: {color: '#21908C'}
+        };
+        var barTrace3 = {
+            x: barPlayers,
+            y: gamesFinished,
+            name: 'Games Finished',
+            type: 'bar',
+            marker: {color: '#FDE725'}
+        };
+        var barLayout = {
+            title: 'Player Statistics Comparison (Hierarchical)',
+            xaxis: {title: 'Player'},
+            yaxis: {title: 'Count'},
+            barmode: 'group',
+            height: 500,
+            width: 800
+        };
+        createPlot('barChart', [barTrace1, barTrace2, barTrace3], barLayout);
+
+        // Bubble chart (Player Performance)
+var bubbleData = [
+  // Using: Player, GP (from week stat), GW, and Win % (from the second percentage, without the "%" symbol)
+  {Player: "Matthew Boyes", GP: 80, GW: 49, "Win %": 51},
+  {Player: "Dalton Harrison", GP: 84, GW: 59, "Win %": 45},
+  {Player: "Kevin Fernandez", GP: 80, GW: 45, "Win %": 46},
+  {Player: "Stacey Moreno", GP: 79, GW: 54, "Win %": 46},
+  {Player: "Steve Menezes", GP: 80, GW: 51, "Win %": 45},
+  {Player: "Austin Macedo", GP: 80, GW: 49, "Win %": 44},
+  {Player: "Jim Morrison", GP: 79, GW: 54, "Win %": 43},
+  {Player: "Steve Macedo", GP: 71, GW: 45, "Win %": 45},
+  {Player: "Richard Renaud", GP: 73, GW: 49, "Win %": 44},
+  {Player: "Melissa Firth", GP: 77, GW: 39, "Win %": 35}
+];
+
+        var bubblePlayers = bubbleData.map(d => d.Player);
+        var gamesPlayed = bubbleData.map(d => parseInt(d.GP));
+        var bubbleGamesWon = bubbleData.map(d => parseInt(d.GW));
+        var winPercentage = bubbleData.map(d => parseFloat(d['Win %']));
+        var maxGW = Math.max(...bubbleGamesWon);
+        var bubbleSizes = bubbleGamesWon.map(gw => (gw / maxGW) * 50);
+
+        var bubbleTrace = {
+            x: gamesPlayed,
+            y: winPercentage,
+            text: bubblePlayers,
+            mode: 'markers',
+            marker: {
+                size: bubbleSizes,
+                color: bubbleGamesWon,
+                colorscale: 'Viridis',
+                showscale: true,
+                colorbar: {title: 'Games Won'}
+            },
+            hovertemplate: '<b>%{text}</b><br>Games Played: %{x}<br>Win %: %{y:.1f}%<br>Games Won: %{marker.color}<br><extra></extra>'
+        };
+        var bubbleLayout = {
+            title: 'Player Performance Bubble Chart',
+            xaxis: {title: 'Games Played'},
+            yaxis: {title: 'Win Percentage', tickformat: '.0%'},
+            height: 600,
+            width: 900
+        };
+        createPlot('bubbleChart', [bubbleTrace], bubbleLayout);
+
+    } catch (error) {
+        console.error("An error occurred:", error);
+        alert("An error occurred while creating the charts. Please check the console for more information.");
+    }
+    </script>
+
+</body>
+</html>

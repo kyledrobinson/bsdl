@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bloor Street Dart League — Contact</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?display=swap&family=Be+Vietnam+Pro:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900"
+    />
+  </head>
+  <body data-theme="light" class="page-contact">
+    <header class="site-header">
+      <div class="logo-section">
+        <div class="logo-icon">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+          </svg>
+        </div>
+        <h1 class="site-title"><a href="index.html">Bloor Street Dart League</a></h1>
+      </div>
+      <div class="header-right">
+        <nav class="nav-menu">
+          <a class="nav-link" href="index.html#standings">Standings</a>
+          <a class="nav-link" href="index.html#player">Player Stats</a>
+          <a class="nav-link" href="index.html#upcoming-matches">Schedule</a>
+          <a class="nav-link" href="constitution.html">Constitution</a>
+          <a class="nav-link active" href="contactUs.html">Contact</a>
+        </nav>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+          <div class="theme-icon">
+            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"></path>
+            </svg>
+            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23Zm-44.73,43.07A88,88,0,0,1,65.57,65.57,88.35,88.35,0,0,1,79.63,53.38a104.11,104.11,0,0,0,96.77,96.77A88.35,88.35,0,0,1,188.81,185.3Z"></path>
+            </svg>
+          </div>
+        </button>
+        <div class="profile-avatar" style="background-image: url('');"></div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="content-wrapper">
+        <!-- Page header -->
+        <header class="article-header">
+          <div class="article-header-inner">
+            <p class="article-eyebrow">Get in touch</p>
+            <h2 class="article-title">Contact Us</h2>
+            <p class="article-subtitle">We'd love to hear from you. Questions, feedback, or suggestions are all welcome.</p>
+          </div>
+        </header>
+
+        <article class="article-card">
+          <form class="form-grid" onsubmit="event.preventDefault(); alert('Thanks! Your message has been received.');">
+            <div class="form-field">
+              <label for="name">Your Name</label>
+              <input id="name" name="name" type="text" placeholder="Enter your name" autocomplete="name" />
+            </div>
+            <div class="form-field">
+              <label for="email">Your Email</label>
+              <input id="email" name="email" type="email" placeholder="Enter your email" autocomplete="email" />
+            </div>
+            <div class="form-field form-field-full">
+              <label for="message">Your Message</label>
+              <textarea id="message" name="message" rows="6" placeholder="Enter your message"></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="cta-button"><span>Send Message</span></button>
+            </div>
+          </form>
+
+          <section class="prose" style="margin-top:16px;">
+
+
+          </section>
+
+          <!-- Additional contact details -->
+          <section id="contact" class="prose" style="margin-top:16px;">
+            <h2>Contact Us</h2>
+            <h2>Primary Mailing Address:</h2>
+            <p>BSDL c/o The Owl's Club A.N.A.F Owls Unit #306</p>
+            <p>Attention Mr. Wayne Morrison</p>
+            <p>847 Dovercourt Road</p>
+            <p>Toronto, Ontario, Canada M6H 2X4</p><br>
+            <h3>Additional Contact Information</h3>
+            <p>Email: kyledavidrobinson@hotmail.com</p>
+            <p>Phone: (416) 532-6920</p>
+            
+
+            <h2>Club Officials:</h2>
+            <ul class="officers-list">
+              <li>President: Wayne Morrison</li>
+              <li>Vice President: Tina Wettlaufer</li>
+              <li>Past President: Harold Kemp</li>
+              <li>Treasurer: Al Kiyonaga</li>
+              <li>Statistician: Kevin Fernandez</li>
+              <li>Social Convenor: Maria Gordon</li>
+              <li>Secretary: Brent Thompson</li>
+              <li>WebMaster: Kyle Robinson</li>
+            </ul>
+          </section>
+        </article>
+
+        <footer>
+          <p>© 2025 Bloor Street Dart League</p>
+        </footer>
+      </div>
+    </main>
+
+    
+    <script>
+      function toggleTheme() {
+        const body = document.body;
+        const currentTheme = body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+      }
+      document.addEventListener('DOMContentLoaded', function() {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+      });
+    </script>
+    <script>
+      // Auto-mark active nav item (works for index sections and standalone pages)
+      (function(){
+        const links = document.querySelectorAll('.nav-menu .nav-link');
+        function mark(sel){
+          links.forEach(a => a.classList.remove('active'));
+          const el = document.querySelector(sel);
+          if (el) el.classList.add('active');
+        }
+        const file = (location.pathname.split('/').pop() || '').toLowerCase();
+        if (file.endsWith('contactus.html')) {
+          mark('.nav-menu .nav-link[href$="contactUs.html"]');
+        } else if (file.endsWith('constitution.html')) {
+          mark('.nav-menu .nav-link[href$="constitution.html"]');
+        } else if (file.endsWith('index.html') || file === '') {
+          function setByHash(){
+            const h = location.hash;
+            if (h === '#standings') mark('.nav-menu .nav-link[href$="#standings"]');
+            else if (h === '#player') mark('.nav-menu .nav-link[href$="#player"]');
+            else if (h === '#upcoming-matches') mark('.nav-menu .nav-link[href$="#upcoming-matches"]');
+            else links.forEach(a => a.classList.remove('active'));
+          }
+          setByHash();
+          window.addEventListener('hashchange', setByHash);
+        }
+      })();
+    </script>
+    <script src="matchDetails.js?v=20250913"></script>
+  </body>
+</html>
