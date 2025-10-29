@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Sample Layout — BSDL</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-theme="light">
+    <header class="site-header">
+      <div class="logo-section">
+        <div class="logo-icon" aria-hidden="true">🎯</div>
+        <h1 class="site-title">Bloor Street Dart League</h1>
+      </div>
+      <div class="header-right">
+        <nav class="nav-menu">
+          <a class="nav-link" href="#standings">Standings</a>
+          <a class="nav-link" href="#player">Player Stats</a>
+          <a class="nav-link" href="#schedule">Schedule</a>
+        </nav>
+        <button class="theme-toggle" type="button">Toggle Theme</button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="content-wrapper">
+        <section class="hero-container">
+          <div class="hero-banner">
+            <img class="hero-image responsive-img" src="img/2025champstitle.png" alt="Hero example" />
+            <div class="hero-content">
+              <h2 class="hero-title">Hero Title</h2>
+              <p class="hero-subtitle">Supporting copy that scales fluidly across devices.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="standings" class="table-container">
+          <div class="matches-table-wrapper">
+            <table class="matches-table">
+              <thead>
+                <tr>
+                  <th>Team</th>
+                  <th>Wins</th>
+                  <th>Losses</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Team">Demo Team</td>
+                  <td data-label="Wins">10</td>
+                  <td data-label="Losses">2</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

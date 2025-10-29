@@ -1,0 +1,99 @@
+/* Responsive fixes consolidated from styles.css. Import or copy these rules if you need a standalone override file. */
+
+:root {
+  --radius-md: 12px;
+  --radius-sm: 8px;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow-x: hidden;
+  font-family: "Be Vietnam Pro", "Noto Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+main,
+.main-content,
+.content-wrapper {
+  width: 100%;
+}
+
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.hero-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: clamp(16px, 4vw, 32px);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-primary);
+  background: var(--bg-secondary);
+}
+
+.hero-image,
+.responsive-img {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 1200px;
+  display: block;
+}
+
+.nav-link,
+.theme-toggle {
+  min-height: 44px;
+}
+
+.table-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px 32px;
+}
+
+.matches-table-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.matches-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 540px;
+}
+
+#player .matches-table {
+  min-width: 960px;
+}
+
+@media (min-width: 1024px) {
+  .main-content {
+    padding: 32px 48px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-menu {
+    flex-direction: column;
+  }
+
+  .matches-table {
+    min-width: 520px;
+  }
+
+  #player .matches-table {
+    min-width: 720px;
+  }
+}
+
