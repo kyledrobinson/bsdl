@@ -1,0 +1,50 @@
+[
+  {
+    "Pos": 1,
+    "Team": "Owls A",
+    "Nights Played": 10,
+    "Nights Won": 9,
+    "Nights Lost": 1,
+    "Games Won": 42,
+    "Games Lost": 18,
+    "Win Percentage": 0.700,
+    "Skunk W": 3,
+    "Skunk L": 0
+  },
+  {
+    "Pos": 2,
+    "Team": "Coronation",
+    "Nights Played": 10,
+    "Nights Won": 7,
+    "Nights Lost": 3,
+    "Games Won": 38,
+    "Games Lost": 22,
+    "Win Percentage": 0.633,
+    "Skunk W": 1,
+    "Skunk L": 1
+  },
+  {
+    "Pos": 3,
+    "Team": "Japas",
+    "Nights Played": 10,
+    "Nights Won": 5,
+    "Nights Lost": 5,
+    "Games Won": 30,
+    "Games Lost": 30,
+    "Win Percentage": 0.500,
+    "Skunk W": 0,
+    "Skunk L": 2
+  },
+  {
+    "Pos": 4,
+    "Team": "Owls B",
+    "Nights Played": 10,
+    "Nights Won": 3,
+    "Nights Lost": 7,
+    "Games Won": 22,
+    "Games Lost": 38,
+    "Win Percentage": 0.367,
+    "Skunk W": 0,
+    "Skunk L": 1
+  }
+]

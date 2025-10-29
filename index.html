@@ -84,13 +84,14 @@
         <div class="content-wrapper">  
             <!-- Hero Section -->
             <div class="hero-container">
-                <div class="hero-banner" style="background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url('img/2025champstitle.png');">
+                <div class="hero-banner">
+                    <img class="hero-image responsive-img" src="img/2025champstitle.png" alt="Bloor Street Dart League champions celebrating" loading="lazy">
                     <div class="hero-content">
-                        <h2 class="hero-title">Welcome to the Bloor Street </br>Dart League</h2>
+                        <h2 class="hero-title">Welcome to the Bloor Street <br>Dart League</h2>
                         <p class="hero-subtitle">
-                            Join us for the 2025/2026 Bloor Street Dart League, beginning September 9, 2025. 
-                            </br>A new season of darts, competition, and community awaits!
-                          </p>
+                            Join us for the 2025/2026 Bloor Street Dart League, beginning September 9, 2025.
+                            <br>A new season of darts, competition, and community awaits!
+                        </p>
                     </div>
                 </div>
                     <!--
@@ -109,7 +110,7 @@
                         <p class="announcement-title">New Season Registration Has Closed: New Players are Welcome!</p>
                         <p class="announcement-description">Registration for the upcoming season is now open! Sign up before August 15th to secure your spot. Don't miss out on the chance to compete and connect with fellow dart enthusiasts.</p>
                     </div>
-                    <div class="announcement-image" style="background-image: url('img/3darts.jpg');"></div>
+                    <img class="announcement-image responsive-img" src="img/3darts.jpg" alt="Three darts in a dartboard" loading="lazy">
                 </div>
             </div>
             
@@ -601,8 +602,8 @@ function mapTeams(src){
 
 let TEAMS_CACHE=[], PLAYERS_CACHE=[];
 (async function boot(){
-  const STANDINGS_URL = localStorage.getItem('bulletin_json_url') || '/api/standings.php';
-  const PLAYERS_URL   = localStorage.getItem('players_url')       || '/server.php';
+  const STANDINGS_URL = localStorage.getItem('bulletin_json_url') || 'data/standings.json';
+  const PLAYERS_URL   = localStorage.getItem('players_url')       || 'data/players.json';
 
   try { TEAMS_CACHE = mapTeams(await fetchJSON(STANDINGS_URL)); } catch(e){ console.warn('standings:', e.message); }
   if (TEAMS_CACHE.length){ plotWinPct(TEAMS_CACHE); plotNightsWonLost(TEAMS_CACHE); plotGamesWonLost(TEAMS_CACHE); }

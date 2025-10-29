@@ -1,6 +1,6 @@
 /* matchDetails.js — Bloor Street Dart League (25/26 season, light/dark ready)
    - Team Standings from Google Apps Script
-   - Player Stats from server.php
+   - Player Stats from local JSON
    - Search + Sort + Pagination
    - Match details tabs (Home | Away | Venue) + auto-highlight current week
    - Date badge beside "Team Standings" (today/next)
@@ -19,9 +19,15 @@ let isAscending = true;
 let currentPage = 1;
 const rowsPerPage = 15;
 
+function setTableState(tbodyId, message){
+  const tbody = document.getElementById(tbodyId);
+  if (!tbody) return;
+  tbody.innerHTML = `<tr><td colspan="100%">${message}</td></tr>`;
+}
+
 // ---- Endpoints ----
-const SCRIPT_URL  = 'https://script.google.com/macros/s/AKfycbzTuDXGlzPu-ffSOljwV19VkBHJ1R8eYS90TYMe3P775IB3xFbrodFc2J8o2Ub6lYPd6w/exec'; // Apps Script
-const playersURL  = './server.php'; // PHP JSON feed (relative path to avoid 404s)
+const STANDINGS_URL = 'data/standings.json';
+const PLAYERS_URL   = 'data/players.json';
 
 // =====================================================
 // 25/26 SEASON SCHEDULE (Round 2 begins in December)
@@ -134,7 +140,8 @@ function updateSortIndicators(tableSelector, column){
 // =====================================================
 async function fetchTeamData(){
   try {
-    const response = await fetch(SCRIPT_URL);
+    setTableState('teamStandingsBody', 'Loading team standings…');
+    const response = await fetch(STANDINGS_URL, { cache: 'no-store' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
     if (!Array.isArray(data) || data.length === 0) throw new Error('No data');
@@ -143,39 +150,61 @@ async function fetchTeamData(){
     renderTeamTable(teamData);
     setError('errorMessage', '');
     addSortingListeners('#teamStandings', sortTeamData);
-    addTeamSearchFunctionality(); // team-only search to match placeholder
+    addTeamSearchFunctionality();
   } catch (err){
     console.error(err);
     showError('Could not load standings. Please refresh.');
+    setTableState('teamStandingsBody', 'Standings are unavailable right now.');
   }
 }
 
 const IGNORE_COL_INDEXES = new Set([8, 9]); // zero-based: I=8, J=9
 
 function processTeamData(raw){
-  const headers = raw[0] || [];
-  teamData = raw.slice(1).map((row, idx) => {
-    const team = { Pos: idx + 1 };
-    headers.forEach((header, i) => {
-      if (IGNORE_COL_INDEXES.has(i)) return; // <-- skip I & J entirely
+  if (!Array.isArray(raw) || raw.length === 0){
+    teamData = [];
+    return;
+  }
 
-      const h0 = String(header ?? '').trim();
-      const h  = HEADER_ALIASES?.[h0] || h0;
+  if (Array.isArray(raw[0])){
+    const headers = raw[0] || [];
+    teamData = raw.slice(1).map((row, idx) => {
+      const team = { Pos: idx + 1 };
+      headers.forEach((header, i) => {
+        if (IGNORE_COL_INDEXES.has(i)) return;
 
-      const val = row[i];
-      if (h === 'Win Percentage') {
-        let v = val; if (typeof v === 'string') v = v.replace('%','').trim();
-        const num = Number(v);
-        team[h] = Number.isFinite(num) ? num : '';
-      } else if (val === '' || val == null) {
-        team[h] = '';
-      } else if (typeof val === 'number') {
-        team[h] = val;
-      } else {
-        const num = Number(val);
-        team[h] = Number.isFinite(num) ? num : String(val);
-      }
+        const h0 = String(header ?? '').trim();
+        const h  = HEADER_ALIASES?.[h0] || h0;
+
+        const val = row[i];
+        if (h === 'Win Percentage') {
+          let v = val; if (typeof v === 'string') v = v.replace('%','').trim();
+          const num = Number(v);
+          team[h] = Number.isFinite(num) ? num : '';
+        } else if (val === '' || val == null) {
+          team[h] = '';
+        } else if (typeof val === 'number') {
+          team[h] = val;
+        } else {
+          const num = Number(val);
+          team[h] = Number.isFinite(num) ? num : String(val);
+        }
+      });
+      return team;
+    }).filter(t => t.Team && String(t.Team).trim() !== '');
+    return;
+  }
+
+  teamData = raw.map((row, idx) => {
+    const team = { Pos: row.Pos ?? idx + 1 };
+    Object.entries(row).forEach(([key, value]) => {
+      if (key === 'Pos') return;
+      team[key] = value;
     });
+    if (team['Win Percentage'] != null) {
+      const num = Number(String(team['Win Percentage']).replace('%',''));
+      team['Win Percentage'] = Number.isFinite(num) ? num : team['Win Percentage'];
+    }
     return team;
   }).filter(t => t.Team && String(t.Team).trim() !== '');
 }
@@ -218,27 +247,29 @@ function renderTeamTable(data){
   if (!tbody){ console.error('Team standings table body element not found'); return; }
   tbody.innerHTML = '';
 
+  const columns = getTeamColumnsFromThead();
+
   data.forEach(team => {
-    const pct = team['Win Percentage'] != null
-      ? Number(team['Win Percentage']).toFixed(3)
-      : '0.000';
-
-    const skw = team['Skunk W'] ?? '';
-    const skl = team['Skunk L'] ?? '';
-
     const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${team.Pos ?? ''}</td>
-      <td>${team.Team ?? ''}</td>
-      <td>${team['Nights Played'] ?? ''}</td>
-      <td>${team['Nights Won'] ?? ''}</td>
-      <td>${team['Nights Lost'] ?? ''}</td>
-      <td>${team['Games Won'] ?? ''}</td>
-      <td>${team['Games Lost'] ?? ''}</td>
-      <td>${pct}</td>
-      <td>${skw}</td>
-      <td>${skl}</td>
-    `;
+
+    columns.forEach(col => {
+      const cell = document.createElement('td');
+      cell.setAttribute('data-label', col);
+
+      let value = team[col];
+      if (col === 'Win Percentage') {
+        const num = Number(value);
+        value = Number.isFinite(num) ? num.toFixed(3) : (value ?? '');
+      }
+
+      if (typeof value === 'number' && col !== 'Team') {
+        cell.classList.add('is-numeric');
+      }
+
+      cell.textContent = (value ?? '') === '' ? '' : value;
+      row.appendChild(cell);
+    });
+
     tbody.appendChild(row);
   });
 }
@@ -318,7 +349,8 @@ const fmtP = {
 // =====================================================
 async function fetchAndPopulatePlayers(){
   try{
-    const r = await fetch(playersURL);
+    setTableState('playerStandingsBody', 'Loading player stats…');
+    const r = await fetch(PLAYERS_URL, { cache: 'no-store' });
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     const data = await r.json();
     if (!Array.isArray(data)) throw new Error('Invalid data');
@@ -336,6 +368,7 @@ async function fetchAndPopulatePlayers(){
   } catch(err){
     console.error('Error fetching players:', err);
     setError('playerError', 'Could not load player stats. Please try again later.');
+    setTableState('playerStandingsBody', 'Player statistics are unavailable right now.');
   }
 }
 
@@ -392,7 +425,8 @@ function renderPlayersTable(page){
           text = (raw ?? '');
         }
 
-        return `<td${alignRight ? ' align=\"right\"' : ''}>${text}</td>`;
+        const classAttr = alignRight ? ' class="is-numeric"' : '';
+        return `<td data-label="${col}"${classAttr}>${text ?? ''}</td>`;
       }).join('')
     }</tr>`;
   }).join('');
@@ -476,7 +510,11 @@ function renderMatchDetails(week){
     let html = '<table class="match-details-table"><thead><tr><th>Home Team</th><th>Away Team</th><th>Venue</th></tr></thead><tbody>';
     scheduleData.forEach(m => {
       const vClass = venueClassFor(m.venue, m.class);
-      html += `<tr><td>${m.home}</td><td>${m.away}</td><td class="${vClass}">${m.venue||''}</td></tr>`;
+      html += `<tr>
+        <td data-label="Home Team">${m.home}</td>
+        <td data-label="Away Team">${m.away}</td>
+        <td data-label="Venue" class="${vClass}">${m.venue||''}</td>
+      </tr>`;
     });
     html += '</tbody></table>';
     el.innerHTML = html;
@@ -846,11 +884,11 @@ function renderUpcomingWeek(i) {
     const vClass = venueClassFor(m.venue, m.class);
     return `
       <tr>
-        <td>${fmt(iso)}</td>
-        <td>${time}</td>
-        <td>${m.home}</td>
-        <td>${m.away}</td>
-        <td class="${vClass}">${m.venue || ''}</td>
+        <td data-label="Date">${fmt(iso)}</td>
+        <td data-label="Time">${time}</td>
+        <td data-label="Home">${m.home}</td>
+        <td data-label="Away">${m.away}</td>
+        <td data-label="Venue" class="${vClass}">${m.venue || ''}</td>
       </tr>`;
   }).join('');
 
