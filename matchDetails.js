@@ -21,7 +21,7 @@ const rowsPerPage = 15;
 
 // ---- Endpoints ----
 const SCRIPT_URL  = 'https://script.google.com/macros/s/AKfycbzTuDXGlzPu-ffSOljwV19VkBHJ1R8eYS90TYMe3P775IB3xFbrodFc2J8o2Ub6lYPd6w/exec'; // Apps Script
-const playersURL  = 'server.php'; // PHP JSON feed
+const playersURL  = './server.php'; // PHP JSON feed (relative path to avoid 404s)
 
 // =====================================================
 // 25/26 SEASON SCHEDULE (Round 2 begins in December)
@@ -47,9 +47,22 @@ const UPCOMING_SCHEDULE = [...ROUND1_FALL_25, '2025-12-02'];
 // =====================================================
 // Utilities
 // =====================================================
+function setError(id, message){
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (message) {
+    el.textContent = message;
+    el.classList.add('is-visible');
+    el.removeAttribute('aria-hidden');
+  } else {
+    el.textContent = '';
+    el.classList.remove('is-visible');
+    el.setAttribute('aria-hidden', 'true');
+  }
+}
+
 function showError(msg){
-  const el = document.getElementById('errorMessage');
-  if (el) { el.textContent = msg; el.style.display = 'block'; }
+  setError('errorMessage', msg);
 }
 
 function fmt(iso) {
@@ -128,6 +141,7 @@ async function fetchTeamData(){
 
     processTeamData(data);
     renderTeamTable(teamData);
+    setError('errorMessage', '');
     addSortingListeners('#teamStandings', sortTeamData);
     addTeamSearchFunctionality(); // team-only search to match placeholder
   } catch (err){
@@ -318,8 +332,10 @@ async function fetchAndPopulatePlayers(){
     renderPlayersTable(currentPage);
     setupPagination();
     addSortingListeners('#playerStandings', sortPlayersData);
+    setError('playerError', '');
   } catch(err){
     console.error('Error fetching players:', err);
+    setError('playerError', 'Could not load player stats. Please try again later.');
   }
 }
 

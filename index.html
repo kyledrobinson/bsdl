@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Bloor Street Dart League</title>
     <!-- Bust caches aggressively so Chrome users don't see a stale layout -->
     <link rel="stylesheet" href="styles.css?v=20250930">
@@ -119,7 +119,7 @@
                   <time id="standingsDate" class="standings-date-badge" datetime="2025-03-26">September 9, 2025</time>
                 </div>
               
-                <div id="errorMessage" role="alert" aria-live="polite"></div>
+                <div id="errorMessage" class="table-error" role="alert" aria-live="polite" aria-hidden="true"></div>
               
                 <div class="search-container" style="padding: 0 16px 8px;">
                   <input type="text" id="searchInput" placeholder="Search teams..." aria-label="Search teams">
@@ -157,49 +157,51 @@
             
               
             <!-- Player Stats -->
-<section id="player" class="table-container">
-    <div class="section-title-row">
-      <h2 class="section-title">Player Stats</h2>
-      <time class="standings-date-badge" aria-hidden="true">Weekly import</time>
-    </div>
-  
-    <div class="search-container" style="padding: 0 16px 8px;">
-      <input type="text" id="playerSearchInput" placeholder="Search players or teams..." aria-label="Search players">
-    </div>
-  
-    <div class="matches-table-wrapper">
-      <table id="playerStandings" class="matches-table" aria-describedby="playerSearchInput">
-        <thead>
-          <tr>
-            <th data-column="Pos">Pos</th>
-            <th data-column="Team">Team</th>
-            <th data-column="Player">Player</th>
-            <th data-column="WP">WP</th>
-            <th data-column="GP">GP</th>
-            <th data-column="GW">GW</th>
-            <th data-column="DBL IN">DBL IN</th>
-            <th data-column="GF">GF</th>
-            <th data-column="Win %">Win %</th>
-            <th data-column="Finish %">Finish %</th>
-            <th data-column="Skunk Win">Skunk Win</th>
-            <th data-column="B. Open">B. Open</th>
-            <th data-column="B. Fin.">B. Fin.</th>
-            <th data-column="High Start">High Start</th>
-            <th data-column="High Finish">High Finish</th>
-            <th data-column="High Score">High Score</th>
-            <th data-column="4 Fin.">4 Fin.</th>
-            <th data-column="5 Fin.">5 Fin.</th>
-            <th data-column="Busts">Busts</th>
-            <th data-column="Fewest Darts">Fewest Darts</th>
-            <th data-column="LFT FIN">LFT FIN</th>
-          </tr>
-        </thead>
-        <tbody id="playerStandingsBody"></tbody>
-      </table>
-    </div>
-  
-    <div id="pagination" style="padding: 10px 16px;"></div>
-  </section>
+            <section id="player" class="table-container">
+                <div class="section-title-row">
+                  <h2 class="section-title">Player Stats</h2>
+                  <time class="standings-date-badge" aria-hidden="true">Weekly import</time>
+                </div>
+
+                <div class="search-container" style="padding: 0 16px 8px;">
+                  <input type="text" id="playerSearchInput" placeholder="Search players or teams..." aria-label="Search players">
+                </div>
+
+                <div id="playerError" class="table-error" role="alert" aria-live="polite" aria-hidden="true"></div>
+
+                <div class="matches-table-wrapper">
+                  <table id="playerStandings" class="matches-table" aria-describedby="playerSearchInput">
+                    <thead>
+                      <tr>
+                        <th data-column="Pos">Pos</th>
+                        <th data-column="Team">Team</th>
+                        <th data-column="Player">Player</th>
+                        <th data-column="WP">WP</th>
+                        <th data-column="GP">GP</th>
+                        <th data-column="GW">GW</th>
+                        <th data-column="DBL IN">DBL IN</th>
+                        <th data-column="GF">GF</th>
+                        <th data-column="Win %">Win %</th>
+                        <th data-column="Finish %">Finish %</th>
+                        <th data-column="Skunk Win">Skunk Win</th>
+                        <th data-column="B. Open">B. Open</th>
+                        <th data-column="B. Fin.">B. Fin.</th>
+                        <th data-column="High Start">High Start</th>
+                        <th data-column="High Finish">High Finish</th>
+                        <th data-column="High Score">High Score</th>
+                        <th data-column="4 Fin.">4 Fin.</th>
+                        <th data-column="5 Fin.">5 Fin.</th>
+                        <th data-column="Busts">Busts</th>
+                        <th data-column="Fewest Darts">Fewest Darts</th>
+                        <th data-column="LFT FIN">LFT FIN</th>
+                      </tr>
+                    </thead>
+                    <tbody id="playerStandingsBody"></tbody>
+                  </table>
+                </div>
+
+                <div id="pagination" style="padding: 10px 16px;"></div>
+            </section>
   
 
             <!-- Upcoming Matches Table -->
