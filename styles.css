@@ -98,17 +98,30 @@ section[id] { scroll-margin-top: 90px; }
      display: flex; align-items: center; justify-content: space-between;
      padding: 12px 40px;
      border-bottom: 1px solid var(--border-secondary);
-     white-space: nowrap;
      background-color: var(--bg-header);
      transition: all .3s ease;
+     gap: 20px;
+     flex-wrap: wrap;
    }
-   
-   .logo-section { display: flex; align-items: center; gap: 16px; color: var(--text-primary); }
-   .logo-icon { width: 16px; height: 16px; }
-   .site-title { font-size: 18px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.25; color: var(--text-primary); }
-   
-   .header-right { display: flex; flex: 1; justify-content: flex-end; gap: 32px; align-items: center; }
-   .nav-menu { display: flex; align-items: center; gap: 36px; }
+
+   .logo-section {
+     display: flex; align-items: center; gap: 16px; color: var(--text-primary);
+     flex: 1 1 auto;
+     min-width: 0;
+     flex-wrap: wrap;
+   }
+   .logo-icon { width: 16px; height: 16px; flex: 0 0 auto; }
+   .site-title {
+     font-size: 18px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.25;
+     color: var(--text-primary);
+     white-space: normal;
+   }
+
+   .header-right {
+     display: flex; flex: 1 1 auto; justify-content: flex-end; gap: 32px; align-items: center;
+     min-width: 0;
+   }
+   .nav-menu { display: flex; align-items: center; gap: 36px; flex-wrap: wrap; }
    .nav-link { color: var(--text-primary); font-size: 14px; font-weight: 500; transition: opacity .2s, color .2s; }
    .nav-link:hover { opacity: .8; }
    [data-theme="light"] .nav-link:hover { color: #51946c; opacity: 1; }
@@ -124,12 +137,13 @@ section[id] { scroll-margin-top: 90px; }
      background: var(--button-bg); color: var(--text-primary);
      border: none; border-radius: 50px; height: 40px; padding: 0 10px; cursor: pointer;
      font-size: 14px; font-weight: 700; letter-spacing: .015em; transition: background-color .3s ease;
+     flex: 0 0 auto;
    }
    .theme-toggle:hover { background: var(--button-hover); }
    .theme-icon { width: 20px; height: 20px; transition: transform .3s ease; }
    .theme-toggle:hover .theme-icon { transform: rotate(20deg); }
    
-   .profile-avatar { width: 40px; height: 40px; border-radius: 50%; background-size: cover; background-position: center; }
+   .profile-avatar { width: 40px; height: 40px; border-radius: 50%; background-size: cover; background-position: center; flex: 0 0 auto; }
    
    /* =========================
       Layout
@@ -153,7 +167,7 @@ section[id] { scroll-margin-top: 90px; }
   align-items: center; justify-content: flex-end; gap: 32px;
 
   /* your preferred desktop sizing/placement */
-  min-height: 480px;
+  min-height: clamp(320px, 70vh, 480px);
   padding: 24px;
   border-radius: var(--radius-md);
 
@@ -375,18 +389,36 @@ section[id] { scroll-margin-top: 90px; }
    }
    @media (max-width: 768px) {
     .main-content { padding: 20px; }
-    .site-header { padding: 12px 20px; }
+    .site-header {
+      padding: 12px 20px;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+    }
+    .logo-section {
+      justify-content: space-between;
+    }
+    .header-right {
+      width: 100%;
+      justify-content: space-between;
+      gap: 16px;
+    }
     .nav-menu { display: none; }
 
     .announcement-content { flex-direction: column; }
-   
+
      /* Table density on mobile */
      .matches-table { font-size: 12px; }
      .matches-table th, .matches-table td { padding: 8px 10px; }
-   
+
      /* Keep our standings row tightening on mobile too */
      #standings #teamStandings.matches-table td { padding: 10px; height: 58px; }
      #standings #teamStandings.matches-table th { padding: 8px 10px; }
+   }
+
+   @media (min-width: 769px) {
+     .site-header { flex-wrap: nowrap; }
+     .site-title { white-space: nowrap; }
    }
 
    /* Upcoming Matches: 5-column layout that reads cleanly */
