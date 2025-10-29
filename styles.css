@@ -102,11 +102,11 @@ section[id] { scroll-margin-top: 90px; }
      background-color: var(--bg-header);
      transition: all .3s ease;
    }
-   
+
    .logo-section { display: flex; align-items: center; gap: 16px; color: var(--text-primary); }
    .logo-icon { width: 16px; height: 16px; }
    .site-title { font-size: 18px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.25; color: var(--text-primary); }
-   
+
    .header-right { display: flex; flex: 1; justify-content: flex-end; gap: 32px; align-items: center; }
    .nav-menu { display: flex; align-items: center; gap: 36px; }
    .nav-link { color: var(--text-primary); font-size: 14px; font-weight: 500; transition: opacity .2s, color .2s; }
@@ -379,11 +379,11 @@ section[id] { scroll-margin-top: 90px; }
     .nav-menu { display: none; }
 
     .announcement-content { flex-direction: column; }
-   
+
      /* Table density on mobile */
      .matches-table { font-size: 12px; }
      .matches-table th, .matches-table td { padding: 8px 10px; }
-   
+
      /* Keep our standings row tightening on mobile too */
      #standings #teamStandings.matches-table td { padding: 10px; height: 58px; }
      #standings #teamStandings.matches-table th { padding: 8px 10px; }
